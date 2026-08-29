@@ -22,17 +22,16 @@
 }
 
 
-/* ---------- Main Genealogy Box ---------- */
+/* =========================================
+   Genealogy Container
+   ========================================= */
 
 .genealogy-container {
     position: relative;
-
     margin: 0 5vw 120px;
 
     border: 1px solid #dddddd;
     background: #ffffff;
-
-    overflow: hidden;
 }
 
 
@@ -87,23 +86,23 @@
 
 
 /* =========================================
-   Genealogy Tree
+   Tree
    ========================================= */
 
 .genealogy-tree {
-    min-height: 850px;
+    position: relative;
 
-    padding: 70px 30px;
+    padding: 80px 40px 100px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    overflow-x: auto;
 }
 
 
-/* ---------- Generation ---------- */
+/* =========================================
+   Scholar Nodes
+   ========================================= */
 
 .generation {
     display: flex;
@@ -111,20 +110,9 @@
     align-items: center;
 }
 
-.generation-label {
-    margin-bottom: 12px;
-
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-
-    color: #888888;
-}
-
-
-/* ---------- Person Node ---------- */
-
 .person-node {
+    position: relative;
+
     width: 280px;
 
     padding: 22px 25px;
@@ -154,8 +142,6 @@
 }
 
 
-/* ---------- Node Text ---------- */
-
 .node-name {
     font-size: 1.05rem;
     font-weight: 600;
@@ -170,7 +156,7 @@
 }
 
 
-/* ---------- Julio ---------- */
+/* ---------- Current Scholar ---------- */
 
 .current-person {
     border: 2px solid #111111;
@@ -181,7 +167,7 @@
 }
 
 
-/* ---------- Selected Node ---------- */
+/* ---------- Selected ---------- */
 
 .person-node.selected {
     background: #111111;
@@ -198,19 +184,46 @@
 
 
 /* =========================================
-   Connections
+   Vertical Connections
    ========================================= */
 
+/*
+   These replace the old ↓ characters.
+*/
+
 .connection {
-    height: 65px;
+    width: 1px;
+    height: 70px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: #999999;
 
-    font-size: 1.4rem;
+    position: relative;
 
-    color: #777777;
+    font-size: 0;
+}
+
+
+/*
+   Small downward endpoint.
+*/
+
+.connection::after {
+    content: "";
+
+    position: absolute;
+
+    bottom: 0;
+    left: 50%;
+
+    width: 7px;
+    height: 7px;
+
+    border-right: 1px solid #999999;
+    border-bottom: 1px solid #999999;
+
+    transform:
+        translateX(-50%)
+        rotate(45deg);
 }
 
 
@@ -219,40 +232,174 @@
    ========================================= */
 
 .mentor-branch {
-    width: 100%;
-    max-width: 750px;
+    position: relative;
+
+    width: 700px;
+    max-width: 100%;
 
     display: grid;
+
     grid-template-columns: 1fr 1fr;
 
-    gap: 100px;
+    gap: 80px;
 
     margin-top: 0;
 }
 
+
+/*
+   Horizontal line connecting the two
+   mentor branches.
+*/
+
+.mentor-branch::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 25%;
+    right: 25%;
+
+    height: 1px;
+
+    background: #999999;
+}
+
+
+/*
+   Vertical connection from José
+   down to the branch.
+*/
+
+.mentor-branch::after {
+    content: "";
+
+    position: absolute;
+
+    top: -70px;
+    left: 50%;
+
+    width: 1px;
+    height: 70px;
+
+    background: #999999;
+}
+
+
+/* ---------- Mentor Columns ---------- */
+
 .mentor-column {
+    position: relative;
+
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.mentor-column .connection {
-    height: 55px;
+
+/*
+   Vertical line from the horizontal
+   branch into each mentor.
+*/
+
+.mentor-column::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    width: 1px;
+    height: 45px;
+
+    background: #999999;
 }
 
 
-/* ---------- Connection to Julio ---------- */
+/*
+   Hide the old arrow connection.
+*/
+
+.mentor-column .connection {
+    height: 45px;
+
+    background: transparent;
+
+    position: relative;
+
+    z-index: 1;
+}
+
+
+/*
+   Remove arrowhead from mentor
+   connection.
+*/
+
+.mentor-column .connection::after {
+    display: none;
+}
+
+
+/* ---------- Mentor Label ---------- */
+
+.generation-label {
+    margin-bottom: 12px;
+
+    font-size: 0.65rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.12em;
+
+    color: #888888;
+}
+
+
+/* =========================================
+   Connection Between Mentors and Julio
+   ========================================= */
 
 .julio-connection {
+    width: 1px;
     height: 80px;
 
+    background: #999999;
+
+    position: relative;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    font-size: 1.4rem;
+    font-size: 0;
+}
 
-    color: #777777;
+
+/*
+   Downward endpoint.
+*/
+
+.julio-connection::after {
+    content: "";
+
+    position: absolute;
+
+    bottom: 0;
+    left: 50%;
+
+    width: 7px;
+    height: 7px;
+
+    border-right: 1px solid #999999;
+    border-bottom: 1px solid #999999;
+
+    transform:
+        translateX(-50%)
+        rotate(45deg);
 }
 
 
@@ -291,6 +438,7 @@
 
 .person-panel.open {
     opacity: 1;
+
     visibility: visible;
 
     transform: translateY(0);
@@ -317,7 +465,9 @@
     margin-bottom: 15px;
 
     font-size: 0.65rem;
+
     text-transform: uppercase;
+
     letter-spacing: 0.12em;
 
     color: #777777;
@@ -337,6 +487,7 @@
 
 .panel-detail {
     padding-top: 15px;
+
     margin-top: 15px;
 
     border-top: 1px solid #dddddd;
@@ -348,7 +499,9 @@
     margin-bottom: 5px;
 
     font-size: 0.65rem;
+
     text-transform: uppercase;
+
     letter-spacing: 0.1em;
 
     color: #777777;
@@ -356,6 +509,7 @@
 
 .panel-detail strong {
     font-size: 0.9rem;
+
     font-weight: 500;
 }
 
@@ -394,7 +548,7 @@
 
 
 /* =========================================
-   Mobile
+   Responsive
    ========================================= */
 
 @media (max-width: 900px) {
@@ -432,14 +586,47 @@
     }
 
     .genealogy-tree {
-        padding: 60px 20px;
+        padding: 60px 20px 80px;
     }
+
+
+    /*
+       On mobile, stack the mentors.
+    */
 
     .mentor-branch {
+        width: 280px;
+
         grid-template-columns: 1fr;
 
-        gap: 25px;
+        gap: 30px;
     }
+
+
+    /*
+       The horizontal branch disappears on mobile.
+    */
+
+    .mentor-branch::before {
+        display: none;
+    }
+
+
+    .mentor-branch::after {
+        height: 45px;
+        top: -45px;
+    }
+
+
+    .mentor-column::before {
+        display: none;
+    }
+
+
+    .mentor-column .connection {
+        height: 0;
+    }
+
 
     .genealogy-notes {
         grid-template-columns: 1fr;
@@ -468,6 +655,7 @@
 
     .genealogy-header {
         flex-direction: column;
+
         align-items: flex-start;
 
         gap: 20px;
