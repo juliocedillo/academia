@@ -1,4 +1,3 @@
-```javascript
 /* =========================================
    Julio Cedillo — Academic Genealogy
    ========================================= */
@@ -273,4 +272,3 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 });
-```
