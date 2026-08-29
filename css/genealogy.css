@@ -662,3 +662,75 @@
     }
 
 }
+
+/* =========================================
+   Mentor Reconnection
+   ========================================= */
+
+.mentor-reconnection {
+    position: relative;
+
+    width: 700px;
+    max-width: 100%;
+
+    height: 70px;
+}
+
+.mentor-line-left,
+.mentor-line-right {
+    position: absolute;
+
+    top: 0;
+
+    width: 25%;
+    height: 1px;
+
+    background: #999999;
+}
+
+.mentor-line-left {
+    left: 25%;
+}
+
+.mentor-line-right {
+    right: 25%;
+}
+
+.mentor-line-center {
+    position: absolute;
+
+    top: 0;
+    left: 50%;
+
+    width: 1px;
+    height: 70px;
+
+    background: #999999;
+}
+
+
+/* =========================================
+   Research Areas in Panel
+   ========================================= */
+
+.panel-areas {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin-top: 8px;
+}
+
+.panel-areas span {
+    display: inline-block;
+
+    padding: 5px 8px;
+
+    border: 1px solid #dddddd;
+
+    font-size: 0.72rem;
+
+    color: #444444;
+}
