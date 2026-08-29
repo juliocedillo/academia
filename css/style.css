@@ -388,3 +388,20 @@ main {
     }
 }
 ```
+
+```css
+/* ---------- Selected Person ---------- */
+
+.person-node.selected {
+    background: #111111;
+    color: #ffffff;
+
+    border-color: #111111;
+
+    transform: translateY(-3px);
+}
+
+.person-node.selected .node-info {
+    color: #cccccc;
+}
+```
