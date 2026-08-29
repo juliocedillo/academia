@@ -3,104 +3,131 @@
    ========================================= */
 
 
-/*
-   =========================================
-   GENEALOGY DATA
-   =========================================
-
-   The data is kept separate from the HTML
-   so that the genealogy can easily be expanded.
-
-   IMPORTANT:
-   Michael Rodríguez-Muñiz and Ricarda Hammer
-   are both listed as Julio's mentors.
-*/
-
+/* =========================================
+   Scholar Data
+   ========================================= */
 
 const genealogy = {
 
     giddings: {
         name: "Franklin Henry Giddings",
         role: "Sociologist",
+        institution: "Columbia University",
         relationship: "Academic Lineage",
-        description:
-            "An early figure in American sociology and a foundational scholar in the intellectual lineage represented here."
+        areas: [
+            "Sociological Theory",
+            "Social Organization",
+            "Political Sociology"
+        ]
     },
 
 
     chapin: {
         name: "F. Stuart Chapin",
         role: "Sociologist",
+        institution: "University of Minnesota",
         relationship: "Academic Lineage",
-        description:
-            "A sociologist whose scholarship forms part of the academic lineage represented in this genealogy."
+        areas: [
+            "Sociology",
+            "Social Research",
+            "Urban Studies"
+        ]
     },
 
 
     sewell: {
         name: "William H. Sewell",
         role: "Sociologist",
+        institution: "University of Chicago",
         relationship: "Academic Lineage",
-        description:
-            "A prominent historical sociologist whose work contributed to the development of historical and comparative approaches within sociology."
+        areas: [
+            "Historical Sociology",
+            "Social Theory",
+            "Political Sociology"
+        ]
     },
 
 
     haller: {
         name: "Archibald O. Haller",
         role: "Sociologist",
+        institution: "University of Wisconsin–Madison",
         relationship: "Academic Lineage",
-        description:
-            "A sociologist associated with research on social stratification, status attainment, and educational and occupational mobility."
+        areas: [
+            "Social Stratification",
+            "Status Attainment",
+            "Education"
+        ]
     },
 
 
     portes: {
         name: "Alejandro Portes",
         role: "Sociologist",
+        institution: "University of Miami",
         relationship: "Academic Lineage",
-        description:
-            "A sociologist known for influential scholarship on immigration, migration, transnationalism, social capital, and economic sociology."
+        areas: [
+            "Immigration",
+            "Economic Sociology",
+            "Social Capital"
+        ]
     },
 
 
     itzigsohn: {
         name: "José Itzigsohn",
         role: "Sociologist",
+        institution: "Brown University",
         relationship: "Academic Lineage",
-        description:
-            "A sociologist whose scholarship addresses race, ethnicity, immigration, political sociology, and the development of Du Boisian sociology."
+        areas: [
+            "Race & Ethnicity",
+            "Immigration",
+            "Political Sociology",
+            "Du Boisian Sociology"
+        ]
     },
 
 
     "rodriguez-muniz": {
         name: "Michael Rodríguez-Muñiz",
-        role: "Mentor",
+        role: "Sociologist",
+        institution: "University of Chicago",
         relationship: "Mentor",
-        description:
-            "A mentor whose scholarship and guidance have contributed to Julio's intellectual development in sociology."
+        areas: [
+            "Race & Ethnicity",
+            "Latinxs",
+            "Political Sociology",
+            "Social Theory"
+        ]
     },
 
 
     hammer: {
         name: "Ricarda Hammer",
-        role: "Mentor",
+        role: "Sociologist",
+        institution: "University of California, Berkeley",
         relationship: "Mentor",
-        description:
-            "A mentor whose scholarship and guidance have contributed to Julio's intellectual development in sociology."
+        areas: [
+            "Political Sociology",
+            "Race & Empire",
+            "Historical Sociology",
+            "Postcolonial Sociology"
+        ]
     },
 
 
     julio: {
         name: "Julio Cedillo",
         role: "Sociologist",
+        institution: "University of California, Berkeley",
         relationship: "Current Scholar",
-        description:
-            "Sociologist interested in citizenship, immigration, race and ethnicity, political sociology, military sociology, and social theory.",
-
-        mentors: [
-            "rodriguez-muniz",
-            "hammer"
+        areas: [
+            "Citizenship",
+            "Immigration",
+            "Race & Ethnicity",
+            "Military Sociology",
+            "Political Sociology",
+            "Social Theory"
         ]
     }
 
@@ -109,33 +136,19 @@ const genealogy = {
 
 
 /* =========================================
-   Find Person
-   ========================================= */
-
-function getPerson(id) {
-
-    return genealogy[id];
-
-}
-
-
-
-/* =========================================
-   Select Person
+   Open Scholar Panel
    ========================================= */
 
 function selectPerson(id) {
 
-    const person = getPerson(id);
+    const person = genealogy[id];
 
     if (!person) {
         return;
     }
 
 
-    /*
-       Remove selection from every node.
-    */
+    /* Remove existing selection */
 
     document
         .querySelectorAll(".person-node")
@@ -146,40 +159,22 @@ function selectPerson(id) {
         });
 
 
+    /* Select current node */
 
-    /*
-       Highlight selected node.
-    */
-
-    const selectedNode =
+    const node =
         document.querySelector(
             `[data-person="${id}"]`
         );
 
 
-    if (selectedNode) {
+    if (node) {
 
-        selectedNode.classList.add("selected");
+        node.classList.add("selected");
 
     }
 
 
-
-    /*
-       Show information panel.
-    */
-
-    showPersonPanel(person);
-
-}
-
-
-
-/* =========================================
-   Show Person Panel
-   ========================================= */
-
-function showPersonPanel(person) {
+    /* Create panel */
 
     const panel =
         document.getElementById("personPanel");
@@ -190,53 +185,11 @@ function showPersonPanel(person) {
     }
 
 
+    const areas =
+        person.areas
+            .map(area => `<span>${area}</span>`)
+            .join("");
 
-    /*
-       Mentor information
-    */
-
-    let mentorInformation = "";
-
-
-    if (person.mentors) {
-
-        const mentors = person.mentors
-            .map(id => {
-
-                const mentor = getPerson(id);
-
-                return mentor
-                    ? mentor.name
-                    : "";
-
-            })
-            .filter(Boolean)
-            .join("<br>");
-
-
-        mentorInformation = `
-
-            <div class="panel-detail">
-
-                <span>
-                    Mentors
-                </span>
-
-                <strong>
-                    ${mentors}
-                </strong>
-
-            </div>
-
-        `;
-
-    }
-
-
-
-    /*
-       Build panel.
-    */
 
     panel.innerHTML = `
 
@@ -244,7 +197,7 @@ function showPersonPanel(person) {
             type="button"
             class="close-panel"
             id="closePanel"
-            aria-label="Close scholar information"
+            aria-label="Close"
         >
             ×
         </button>
@@ -265,19 +218,46 @@ function showPersonPanel(person) {
         </p>
 
 
-        <p>
-            ${person.description}
-        </p>
+        <div class="panel-detail">
+
+            <span>
+                Institution
+            </span>
+
+            <strong>
+                ${person.institution}
+            </strong>
+
+        </div>
 
 
-        ${mentorInformation}
+        <div class="panel-detail">
+
+            <span>
+                Areas of Work
+            </span>
+
+            <div class="panel-areas">
+                ${areas}
+            </div>
+
+        </div>
+
+
+        <div class="panel-detail">
+
+            <span>
+                Place in Genealogy
+            </span>
+
+            <strong>
+                ${person.relationship}
+            </strong>
+
+        </div>
 
     `;
 
-
-    /*
-       Open panel.
-    */
 
     panel.classList.add("open");
 
@@ -287,33 +267,24 @@ function showPersonPanel(person) {
     );
 
 
+    /* Close button */
 
-    /*
-       Close button.
-    */
-
-    const closeButton =
-        document.getElementById("closePanel");
-
-
-    if (closeButton) {
-
-        closeButton.addEventListener(
+    document
+        .getElementById("closePanel")
+        .addEventListener(
             "click",
-            closePersonPanel
+            closePanel
         );
-
-    }
 
 }
 
 
 
 /* =========================================
-   Close Person Panel
+   Close Panel
    ========================================= */
 
-function closePersonPanel() {
+function closePanel() {
 
     const panel =
         document.getElementById("personPanel");
@@ -331,11 +302,6 @@ function closePersonPanel() {
     }
 
 
-
-    /*
-       Remove selected node.
-    */
-
     document
         .querySelectorAll(".person-node")
         .forEach(node => {
@@ -349,19 +315,43 @@ function closePersonPanel() {
 
 
 /* =========================================
-   Reset Genealogy
+   Reset
    ========================================= */
 
 function resetGenealogy() {
 
-    closePersonPanel();
+    closePanel();
 
 }
 
 
 
 /* =========================================
-   Initialize Page
+   Keyboard Accessibility
+   ========================================= */
+
+function handleKeyboard(event) {
+
+    if (
+        event.key === "Enter" ||
+        event.key === " "
+    ) {
+
+        event.preventDefault();
+
+        const id =
+            event.currentTarget.dataset.person;
+
+        selectPerson(id);
+
+    }
+
+}
+
+
+
+/* =========================================
+   Initialize
    ========================================= */
 
 document.addEventListener(
@@ -369,19 +359,11 @@ document.addEventListener(
     () => {
 
 
-        /*
-           Find every scholar node.
-        */
-
         const nodes =
             document.querySelectorAll(
                 ".person-node"
             );
 
-
-        /*
-           Make each node clickable.
-        */
 
         nodes.forEach(node => {
 
@@ -389,21 +371,21 @@ document.addEventListener(
                 "click",
                 () => {
 
-                    const id =
-                        node.dataset.person;
-
-                    selectPerson(id);
+                    selectPerson(
+                        node.dataset.person
+                    );
 
                 }
             );
 
+
+            node.addEventListener(
+                "keydown",
+                handleKeyboard
+            );
+
         });
 
-
-
-        /*
-           Reset button.
-        */
 
         const resetButton =
             document.getElementById(
