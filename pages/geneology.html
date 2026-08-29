@@ -1,0 +1,265 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Academic Genealogy — Julio Cedillo</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/genealogy.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="site-header">
+        <nav class="navbar">
+
+            <a href="index.html" class="site-name">
+                Julio Cedillo
+            </a>
+
+            <div class="nav-links">
+                <a href="about.html">About</a>
+                <a href="cv.html">CV</a>
+                <a href="projects.html">Projects</a>
+                <a href="genealogy.html">Academic Genealogy</a>
+            </div>
+
+        </nav>
+    </header>
+
+
+    <!-- Main -->
+    <main>
+
+        <!-- Page Introduction -->
+        <section class="genealogy-intro">
+
+            <p class="eyebrow">
+                Academic Genealogy
+            </p>
+
+            <h1>
+                Intellectual Lineages
+            </h1>
+
+            <p class="genealogy-description">
+                An evolving map of the scholars, mentors, and intellectual
+                traditions that have shaped my academic trajectory.
+            </p>
+
+        </section>
+
+
+        <!-- Genealogy -->
+        <section class="genealogy-container">
+
+            <div class="genealogy-header">
+
+                <div>
+                    <span class="genealogy-label">
+                        ACADEMIC LINEAGE
+                    </span>
+
+                    <p>
+                        Mentor → Student
+                    </p>
+                </div>
+
+                <button
+                    class="reset-button"
+                    onclick="resetGenealogy()">
+                    Reset View
+                </button>
+
+            </div>
+
+
+            <!-- Tree -->
+            <div class="genealogy-tree" id="genealogyTree">
+
+                <!-- Generation 1 -->
+                <div class="generation">
+
+                    <div class="generation-label">
+                        Intellectual Ancestor
+                    </div>
+
+                    <div
+                        class="person-node"
+                        data-person="du-bois">
+
+                        <div class="node-name">
+                            W. E. B. Du Bois
+                        </div>
+
+                        <div class="node-info">
+                            Sociologist
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Connection -->
+                <div class="connection">
+                    ↓
+                </div>
+
+
+                <!-- Generation 2 -->
+                <div class="generation">
+
+                    <div class="generation-label">
+                        Mentor
+                    </div>
+
+                    <div
+                        class="person-node"
+                        data-person="mentor-1">
+
+                        <div class="node-name">
+                            Mentor Name
+                        </div>
+
+                        <div class="node-info">
+                            University
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Connection -->
+                <div class="connection">
+                    ↓
+                </div>
+
+
+                <!-- Generation 3 -->
+                <div class="generation">
+
+                    <div class="generation-label">
+                        Academic Mentor
+                    </div>
+
+                    <div
+                        class="person-node"
+                        data-person="mentor-2">
+
+                        <div class="node-name">
+                            Mentor's Mentor
+                        </div>
+
+                        <div class="node-info">
+                            University
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Connection -->
+                <div class="connection">
+                    ↓
+                </div>
+
+
+                <!-- Julio -->
+                <div class="generation">
+
+                    <div class="generation-label">
+                        Student
+                    </div>
+
+                    <div
+                        class="person-node current-person"
+                        data-person="julio">
+
+                        <div class="node-name">
+                            Julio Cedillo
+                        </div>
+
+                        <div class="node-info">
+                            Sociologist
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Explanation -->
+        <section class="genealogy-notes">
+
+            <div class="section-label">
+                <span>01</span>
+                <span>About the Genealogy</span>
+            </div>
+
+            <div class="section-content">
+
+                <h2>
+                    Tracing ideas through people.
+                </h2>
+
+                <p>
+                    Academic genealogy provides a way of understanding
+                    scholarship not only through institutions and
+                    publications, but through relationships between
+                    teachers and students.
+                </p>
+
+                <p>
+                    This genealogy is intended to trace the intellectual
+                    lineages that inform my own work in sociology,
+                    particularly scholarship concerning race, the state,
+                    citizenship, political sociology, and Du Boisian
+                    sociology.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- Footer -->
+        <footer class="site-footer">
+
+            <div>
+                © 2026 Julio Cedillo
+            </div>
+
+            <div class="footer-links">
+
+                <a href="mailto:your-email@example.com">
+                    Email
+                </a>
+
+                <a href="cv.html">
+                    CV
+                </a>
+
+            </div>
+
+        </footer>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script src="js/genealogy.js"></script>
+
+</body>
+</html>
+```
