@@ -5,14 +5,14 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Academic Genealogy — Julio Cedillo</title>
+    <title>Academic Genealogy — Julio Adrián Cedillo</title>
 
+    <!-- Main CSS -->
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- Genealogy CSS -->
     <link rel="stylesheet" href="css/genealogy.css">
 
 </head>
@@ -20,8 +20,9 @@
 
 <body>
 
+
     <!-- =========================================
-         Navigation
+         NAVIGATION
          ========================================= -->
 
     <header class="site-header">
@@ -29,15 +30,20 @@
         <nav class="navbar">
 
             <a href="index.html" class="site-name">
-                Julio Cedillo
+                Julio Adrián Cedillo
             </a>
 
             <div class="nav-links">
 
                 <a href="about.html">About</a>
+
                 <a href="cv.html">CV</a>
+
                 <a href="projects.html">Projects</a>
-                <a href="genealogy.html">Academic Genealogy</a>
+
+                <a href="genealogy.html">
+                    Academic Genealogy
+                </a>
 
             </div>
 
@@ -48,13 +54,15 @@
 
 
     <!-- =========================================
-         Main
+         MAIN CONTENT
          ========================================= -->
 
     <main>
 
 
-        <!-- Introduction -->
+        <!-- =====================================
+             INTRODUCTION
+             ===================================== -->
 
         <section class="genealogy-intro">
 
@@ -68,20 +76,21 @@
 
             <p class="genealogy-description">
                 A visual genealogy tracing the scholars and mentors
-                whose intellectual traditions have shaped my development
-                as a sociologist.
+                whose intellectual traditions have shaped my academic development.
             </p>
 
         </section>
 
 
 
-        <!-- =========================================
-             Genealogy
-             ========================================= -->
+        <!-- =====================================
+             GENEALOGY CONTAINER
+             ===================================== -->
 
         <section class="genealogy-container">
 
+
+            <!-- Header -->
 
             <div class="genealogy-header">
 
@@ -92,8 +101,8 @@
                     </span>
 
                     <p>
-                        Select a scholar to explore their work and place
-                        in the genealogy.
+                        Select a scholar to explore their work and
+                        place in the genealogy.
                     </p>
 
                 </div>
@@ -111,14 +120,16 @@
 
 
 
-            <!-- =====================================
+            <!-- =================================
                  TREE
-                 ===================================== -->
+                 ================================= -->
 
             <div class="genealogy-tree">
 
 
-                <!-- Giddings -->
+                <!-- =================================
+                     GENERATION 1
+                     ================================= -->
 
                 <div class="generation">
 
@@ -134,7 +145,7 @@
                         </div>
 
                         <div class="node-info">
-                            Sociology
+                            Sociologist & Economist · Columbia University
                         </div>
 
                     </div>
@@ -146,7 +157,9 @@
 
 
 
-                <!-- Chapin -->
+                <!-- =================================
+                     GENERATION 2
+                     ================================= -->
 
                 <div class="generation">
 
@@ -162,7 +175,7 @@
                         </div>
 
                         <div class="node-info">
-                            Sociology
+                            Sociologist · University of Minnesota
                         </div>
 
                     </div>
@@ -174,7 +187,9 @@
 
 
 
-                <!-- Sewell -->
+                <!-- =================================
+                     GENERATION 3
+                     ================================= -->
 
                 <div class="generation">
 
@@ -190,7 +205,7 @@
                         </div>
 
                         <div class="node-info">
-                            Sociology
+                            Sociologist & Chancellor · University of Wisconsin - Madison
                         </div>
 
                     </div>
@@ -202,7 +217,9 @@
 
 
 
-                <!-- Haller -->
+                <!-- =================================
+                     GENERATION 4
+                     ================================= -->
 
                 <div class="generation">
 
@@ -218,7 +235,7 @@
                         </div>
 
                         <div class="node-info">
-                            Sociology
+                            Sociologist · University of Wisconsin - Madison
                         </div>
 
                     </div>
@@ -230,7 +247,9 @@
 
 
 
-                <!-- Portes -->
+                <!-- =================================
+                     GENERATION 5
+                     ================================= -->
 
                 <div class="generation">
 
@@ -246,7 +265,7 @@
                         </div>
 
                         <div class="node-info">
-                            Sociology · University of Miami
+                            Sociologist · Princeton University & University of Miami
                         </div>
 
                     </div>
@@ -258,7 +277,9 @@
 
 
 
-                <!-- Itzigsohn -->
+                <!-- =================================
+                     GENERATION 6
+                     ================================= -->
 
                 <div class="generation">
 
@@ -274,7 +295,7 @@
                         </div>
 
                         <div class="node-info">
-                            Sociology · Brown University
+                            Sociologist · Brown University
                         </div>
 
                     </div>
@@ -283,18 +304,28 @@
 
 
 
-                <!-- =====================================
-                     MENTOR BRANCH
-                     ===================================== -->
+                <!-- =================================
+                     MENTOR SPLIT
+                     ================================= -->
 
-                <div class="mentor-branch">
+                <div class="mentor-split">
 
 
-                    <!-- Michael -->
+                    <!-- Vertical line from José -->
 
-                    <div class="mentor-column">
+                    <div class="split-stem"></div>
 
-                        <div class="connection"></div>
+
+                    <!-- Horizontal branch -->
+
+                    <div class="split-horizontal"></div>
+
+
+                    <!-- Left branch -->
+
+                    <div class="mentor mentor-left">
+
+                        <div class="mentor-vertical"></div>
 
                         <div
                             class="person-node"
@@ -308,7 +339,7 @@
                             </div>
 
                             <div class="node-info">
-                                Sociology · University of Chicago
+                                Sociologist · UC Berkeley
                             </div>
 
                         </div>
@@ -316,12 +347,11 @@
                     </div>
 
 
+                    <!-- Right branch -->
 
-                    <!-- Ricarda -->
+                    <div class="mentor mentor-right">
 
-                    <div class="mentor-column">
-
-                        <div class="connection"></div>
+                        <div class="mentor-vertical"></div>
 
                         <div
                             class="person-node"
@@ -335,7 +365,7 @@
                             </div>
 
                             <div class="node-info">
-                                Sociology
+                                Sociologist · UC Berkeley
                             </div>
 
                         </div>
@@ -347,29 +377,33 @@
 
 
 
-                <!-- =====================================
-                     RECONNECTION
-                     ===================================== -->
+                <!-- =================================
+                     MENTOR RECONNECTION
+                     ================================= -->
 
-                <div class="mentor-reconnection">
+                <div class="mentor-reconnect">
 
-                    <div class="mentor-line-left"></div>
+                    <div class="reconnect-left"></div>
 
-                    <div class="mentor-line-center"></div>
+                    <div class="reconnect-right"></div>
 
-                    <div class="mentor-line-right"></div>
+                    <div class="reconnect-center"></div>
 
                 </div>
 
 
 
-                <!-- Connection to Julio -->
+                <!-- =================================
+                     JULIO CONNECTION
+                     ================================= -->
 
                 <div class="julio-connection"></div>
 
 
 
-                <!-- Julio -->
+                <!-- =================================
+                     JULIO CEDILLO
+                     ================================= -->
 
                 <div class="generation">
 
@@ -389,7 +423,7 @@
                         </div>
 
                         <div class="node-info">
-                            Sociology · UC Berkeley
+                            UC Berkeley
                         </div>
 
                     </div>
@@ -401,15 +435,17 @@
 
 
 
-            <!-- =====================================
+            <!-- =================================
                  INFORMATION PANEL
-                 ===================================== -->
+                 ================================= -->
 
             <aside
                 class="person-panel"
                 id="personPanel"
                 aria-hidden="true"
             >
+
+                <!-- JavaScript inserts content here -->
 
             </aside>
 
@@ -418,64 +454,66 @@
 
 
 
-        <!-- =========================================
-             About
-             ========================================= -->
+        <!-- =====================================
+             ABOUT THE GENEALOGY
+             ===================================== -->
 
         <section class="genealogy-notes">
 
+
             <div class="section-label">
 
-                <span>01</span>
+                <span>
+                    01
+                </span>
 
-                <span>About</span>
+                <span>
+                    About
+                </span>
 
             </div>
+
 
 
             <div class="section-content">
 
                 <h2>
-                    Tracing ideas through people.
+                    One big academic family.
                 </h2>
 
 
                 <p>
-                    Academic genealogy offers a way of tracing
-                    intellectual traditions through relationships
-                    between scholars, teachers, mentors, and students.
+                    I was in office hours with Ricarda Hammer, who told me during a conversation that José Itzingsohn is my "academic grandpa" since 
+                    I was mentored by both of his students. This gave me an idea to trace the scholars who advised and influenced
+                    my mentors, who lead to my academic interests.
+                    
                 </p>
 
 
                 <p>
-                    This genealogy traces a line through Franklin Henry
-                    Giddings, F. Stuart Chapin, William H. Sewell,
-                    Archibald O. Haller, Alejandro Portes, and
-                    José Itzigsohn.
-                </p>
-
-
-                <p>
+                    This genealogy traces scholars beginning from the 1880s to 2026!
                     From José Itzigsohn, the genealogy branches to
                     Michael Rodríguez-Muñiz and Ricarda Hammer, who
                     have both served as mentors in my intellectual
                     development.
                 </p>
 
-
                 <p>
-                    The genealogy is an evolving project and will
-                    continue to develop as I document the intellectual
-                    relationships and traditions that inform my work.
+                    This is an evolving project and will
+                    continue to develop as I document my intellectual
+                    relationships and traditions.
                 </p>
 
             </div>
+
 
         </section>
 
 
 
-        <!-- Footer -->
+        <!-- =====================================
+             FOOTER
+             ===================================== -->
 
         <footer class="site-footer">
 
@@ -483,9 +521,10 @@
                 © 2026 Julio Cedillo
             </div>
 
+
             <div class="footer-links">
 
-                <a href="mailto:your-email@example.com">
+                <a href="julio.cedillo@berkeley.edu">
                     Email
                 </a>
 
@@ -502,7 +541,12 @@
 
 
 
+    <!-- =========================================
+         JAVASCRIPT
+         ========================================= -->
+
     <script src="js/genealogy.js"></script>
+
 
 </body>
 
