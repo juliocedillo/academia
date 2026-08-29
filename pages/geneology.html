@@ -1,20 +1,29 @@
 ```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Academic Genealogy — Julio Cedillo</title>
 
+    <!-- Main website CSS -->
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- Genealogy-specific CSS -->
     <link rel="stylesheet" href="css/genealogy.css">
 </head>
 
+
 <body>
 
-    <!-- Navigation -->
+    <!-- =========================================
+         Navigation
+         ========================================= -->
+
     <header class="site-header">
+
         <nav class="navbar">
 
             <a href="index.html" class="site-name">
@@ -22,20 +31,42 @@
             </a>
 
             <div class="nav-links">
-                <a href="about.html">About</a>
-                <a href="cv.html">CV</a>
-                <a href="projects.html">Projects</a>
-                <a href="genealogy.html">Academic Genealogy</a>
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="cv.html">
+                    CV
+                </a>
+
+                <a href="projects.html">
+                    Projects
+                </a>
+
+                <a href="genealogy.html">
+                    Academic Genealogy
+                </a>
+
             </div>
 
         </nav>
+
     </header>
 
 
-    <!-- Main -->
+
+    <!-- =========================================
+         Main Content
+         ========================================= -->
+
     <main>
 
-        <!-- Page Introduction -->
+
+        <!-- =====================================
+             Page Introduction
+             ===================================== -->
+
         <section class="genealogy-intro">
 
             <p class="eyebrow">
@@ -54,12 +85,20 @@
         </section>
 
 
-        <!-- Genealogy -->
+
+        <!-- =====================================
+             Genealogy Visualization
+             ===================================== -->
+
         <section class="genealogy-container">
+
+
+            <!-- Visualization Header -->
 
             <div class="genealogy-header">
 
                 <div>
+
                     <span class="genealogy-label">
                         ACADEMIC LINEAGE
                     </span>
@@ -67,21 +106,31 @@
                     <p>
                         Mentor → Student
                     </p>
+
                 </div>
+
 
                 <button
                     class="reset-button"
                     onclick="resetGenealogy()">
+
                     Reset View
+
                 </button>
 
             </div>
 
 
-            <!-- Tree -->
-            <div class="genealogy-tree" id="genealogyTree">
 
-                <!-- Generation 1 -->
+            <!-- =================================
+                 Genealogy Tree
+                 ================================= -->
+
+            <div class="genealogy-tree">
+
+
+                <!-- Giddings -->
+
                 <div class="generation">
 
                     <div class="generation-label">
@@ -90,10 +139,10 @@
 
                     <div
                         class="person-node"
-                        data-person="du-bois">
+                        data-person="giddings">
 
                         <div class="node-name">
-                            W. E. B. Du Bois
+                            Franklin Henry Giddings
                         </div>
 
                         <div class="node-info">
@@ -106,28 +155,31 @@
 
 
                 <!-- Connection -->
+
                 <div class="connection">
                     ↓
                 </div>
 
 
-                <!-- Generation 2 -->
+
+                <!-- Chapin -->
+
                 <div class="generation">
 
                     <div class="generation-label">
-                        Mentor
+                        Academic Lineage
                     </div>
 
                     <div
                         class="person-node"
-                        data-person="mentor-1">
+                        data-person="chapin">
 
                         <div class="node-name">
-                            Mentor Name
+                            F. Stuart Chapin
                         </div>
 
                         <div class="node-info">
-                            University
+                            Sociologist
                         </div>
 
                     </div>
@@ -135,29 +187,30 @@
                 </div>
 
 
-                <!-- Connection -->
                 <div class="connection">
                     ↓
                 </div>
 
 
-                <!-- Generation 3 -->
+
+                <!-- Sewell -->
+
                 <div class="generation">
 
                     <div class="generation-label">
-                        Academic Mentor
+                        Academic Lineage
                     </div>
 
                     <div
                         class="person-node"
-                        data-person="mentor-2">
+                        data-person="sewell">
 
                         <div class="node-name">
-                            Mentor's Mentor
+                            William H. Sewell
                         </div>
 
                         <div class="node-info">
-                            University
+                            Sociologist
                         </div>
 
                     </div>
@@ -165,13 +218,180 @@
                 </div>
 
 
-                <!-- Connection -->
                 <div class="connection">
                     ↓
                 </div>
 
 
-                <!-- Julio -->
+
+                <!-- Haller -->
+
+                <div class="generation">
+
+                    <div class="generation-label">
+                        Academic Lineage
+                    </div>
+
+                    <div
+                        class="person-node"
+                        data-person="haller">
+
+                        <div class="node-name">
+                            Archibald O. Haller
+                        </div>
+
+                        <div class="node-info">
+                            Sociologist
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="connection">
+                    ↓
+                </div>
+
+
+
+                <!-- Portes -->
+
+                <div class="generation">
+
+                    <div class="generation-label">
+                        Academic Lineage
+                    </div>
+
+                    <div
+                        class="person-node"
+                        data-person="portes">
+
+                        <div class="node-name">
+                            Alejandro Portes
+                        </div>
+
+                        <div class="node-info">
+                            Sociologist
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="connection">
+                    ↓
+                </div>
+
+
+
+                <!-- Itzigsohn -->
+
+                <div class="generation">
+
+                    <div class="generation-label">
+                        Academic Lineage
+                    </div>
+
+                    <div
+                        class="person-node"
+                        data-person="itzigsohn">
+
+                        <div class="node-name">
+                            José Itzigsohn
+                        </div>
+
+                        <div class="node-info">
+                            Sociologist
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     Branching Mentors
+                     ================================= -->
+
+                <div class="mentor-branch">
+
+
+                    <!-- Michael -->
+
+                    <div class="mentor-column">
+
+                        <div class="connection">
+                            ↙
+                        </div>
+
+                        <div class="generation-label">
+                            Mentor
+                        </div>
+
+                        <div
+                            class="person-node"
+                            data-person="rodriguez-muniz">
+
+                            <div class="node-name">
+                                Michael Rodríguez-Muñiz
+                            </div>
+
+                            <div class="node-info">
+                                Mentor
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Ricarda -->
+
+                    <div class="mentor-column">
+
+                        <div class="connection">
+                            ↘
+                        </div>
+
+                        <div class="generation-label">
+                            Mentor
+                        </div>
+
+                        <div
+                            class="person-node"
+                            data-person="hammer">
+
+                            <div class="node-name">
+                                Ricarda Hammer
+                            </div>
+
+                            <div class="node-info">
+                                Mentor
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     Julio
+                     ================================= -->
+
+                <div class="julio-connection">
+
+                    ↓
+
+                </div>
+
+
                 <div class="generation">
 
                     <div class="generation-label">
@@ -194,18 +414,46 @@
 
                 </div>
 
+
             </div>
+
+
+            <!-- =================================
+                 Information Panel
+                 ================================= -->
+
+            <aside
+                class="person-panel"
+                id="personPanel">
+
+                <!-- JavaScript inserts information here -->
+
+            </aside>
+
 
         </section>
 
 
-        <!-- Explanation -->
+
+        <!-- =====================================
+             About the Genealogy
+             ===================================== -->
+
         <section class="genealogy-notes">
 
+
             <div class="section-label">
-                <span>01</span>
-                <span>About the Genealogy</span>
+
+                <span>
+                    01
+                </span>
+
+                <span>
+                    About the Genealogy
+                </span>
+
             </div>
+
 
             <div class="section-content">
 
@@ -213,19 +461,28 @@
                     Tracing ideas through people.
                 </h2>
 
+
                 <p>
                     Academic genealogy provides a way of understanding
                     scholarship not only through institutions and
                     publications, but through relationships between
-                    teachers and students.
+                    teachers, mentors, and students.
                 </p>
 
+
                 <p>
-                    This genealogy is intended to trace the intellectual
-                    lineages that inform my own work in sociology,
-                    particularly scholarship concerning race, the state,
-                    citizenship, political sociology, and Du Boisian
-                    sociology.
+                    This genealogy traces an intellectual lineage from
+                    Franklin Henry Giddings through F. Stuart Chapin,
+                    William H. Sewell, Archibald O. Haller, Alejandro Portes,
+                    and José Itzigsohn, before branching through my mentors
+                    Michael Rodríguez-Muñiz and Ricarda Hammer.
+                </p>
+
+
+                <p>
+                    The genealogy is intended as an evolving representation
+                    of the intellectual relationships that inform my work
+                    in sociology.
                 </p>
 
             </div>
@@ -233,12 +490,17 @@
         </section>
 
 
-        <!-- Footer -->
+
+        <!-- =====================================
+             Footer
+             ===================================== -->
+
         <footer class="site-footer">
 
             <div>
                 © 2026 Julio Cedillo
             </div>
+
 
             <div class="footer-links">
 
@@ -254,12 +516,18 @@
 
         </footer>
 
+
     </main>
 
 
-    <!-- JavaScript -->
+
+    <!-- =========================================
+         JavaScript
+         ========================================= -->
+
     <script src="js/genealogy.js"></script>
 
 </body>
+
 </html>
 ```
