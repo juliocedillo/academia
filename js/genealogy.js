@@ -4,132 +4,118 @@
 
 
 /*
-   Each person has an ID and a relationship.
+   =========================================
+   GENEALOGY DATA
+   =========================================
 
-   "advisor" = their academic lineage connection
-   "mentors" = people who directly mentored Julio
+   The data is kept separate from the HTML
+   so that the genealogy can easily be expanded.
+
+   IMPORTANT:
+   Michael Rodríguez-Muñiz and Ricarda Hammer
+   are both listed as Julio's mentors.
 */
 
-const genealogy = [
-    {
-        id: "giddings",
+
+const genealogy = {
+
+    giddings: {
         name: "Franklin Henry Giddings",
         role: "Sociologist",
-        relationship: "Intellectual Ancestor",
-        advisor: null
+        relationship: "Academic Lineage",
+        description:
+            "An early figure in American sociology and a foundational scholar in the intellectual lineage represented here."
     },
 
-    {
-        id: "chapin",
+
+    chapin: {
         name: "F. Stuart Chapin",
         role: "Sociologist",
         relationship: "Academic Lineage",
-        advisor: "giddings"
+        description:
+            "A sociologist whose scholarship forms part of the academic lineage represented in this genealogy."
     },
 
-    {
-        id: "sewell",
+
+    sewell: {
         name: "William H. Sewell",
         role: "Sociologist",
         relationship: "Academic Lineage",
-        advisor: "chapin"
+        description:
+            "A prominent historical sociologist whose work contributed to the development of historical and comparative approaches within sociology."
     },
 
-    {
-        id: "haller",
+
+    haller: {
         name: "Archibald O. Haller",
         role: "Sociologist",
         relationship: "Academic Lineage",
-        advisor: "sewell"
+        description:
+            "A sociologist associated with research on social stratification, status attainment, and educational and occupational mobility."
     },
 
-    {
-        id: "portes",
+
+    portes: {
         name: "Alejandro Portes",
         role: "Sociologist",
         relationship: "Academic Lineage",
-        advisor: "haller"
+        description:
+            "A sociologist known for influential scholarship on immigration, migration, transnationalism, social capital, and economic sociology."
     },
 
-    {
-        id: "itzigsohn",
+
+    itzigsohn: {
         name: "José Itzigsohn",
         role: "Sociologist",
         relationship: "Academic Lineage",
-        advisor: "portes"
+        description:
+            "A sociologist whose scholarship addresses race, ethnicity, immigration, political sociology, and the development of Du Boisian sociology."
     },
 
-    {
-        id: "rodriguez-muniz",
+
+    "rodriguez-muniz": {
         name: "Michael Rodríguez-Muñiz",
         role: "Mentor",
         relationship: "Mentor",
-        advisor: "itzigsohn"
+        description:
+            "A mentor whose scholarship and guidance have contributed to Julio's intellectual development in sociology."
     },
 
-    {
-        id: "hammer",
+
+    hammer: {
         name: "Ricarda Hammer",
         role: "Mentor",
         relationship: "Mentor",
-        advisor: "itzigsohn"
+        description:
+            "A mentor whose scholarship and guidance have contributed to Julio's intellectual development in sociology."
     },
 
-    {
-        id: "julio",
+
+    julio: {
         name: "Julio Cedillo",
         role: "Sociologist",
-        relationship: "Student",
+        relationship: "Current Scholar",
+        description:
+            "Sociologist interested in citizenship, immigration, race and ethnicity, political sociology, military sociology, and social theory.",
+
         mentors: [
             "rodriguez-muniz",
             "hammer"
         ]
     }
-];
+
+};
 
 
 
 /* =========================================
-   Find a Person
+   Find Person
    ========================================= */
 
-function findPerson(id) {
-    return genealogy.find(person => person.id === id);
-}
+function getPerson(id) {
 
+    return genealogy[id];
 
-
-/* =========================================
-   Create Person Node
-   ========================================= */
-
-function createPersonNode(person) {
-
-    const node = document.createElement("div");
-
-    node.classList.add("person-node");
-
-    if (person.id === "julio") {
-        node.classList.add("current-person");
-    }
-
-    node.dataset.person = person.id;
-
-    node.innerHTML = `
-        <div class="node-name">
-            ${person.name}
-        </div>
-
-        <div class="node-info">
-            ${person.role}
-        </div>
-    `;
-
-    node.addEventListener("click", () => {
-        selectPerson(person.id);
-    });
-
-    return node;
 }
 
 
@@ -140,110 +126,224 @@ function createPersonNode(person) {
 
 function selectPerson(id) {
 
-    const nodes = document.querySelectorAll(".person-node");
+    const person = getPerson(id);
 
-    nodes.forEach(node => {
-        node.classList.remove("selected");
-    });
-
-    const selected = document.querySelector(
-        `[data-person="${id}"]`
-    );
-
-    if (selected) {
-        selected.classList.add("selected");
+    if (!person) {
+        return;
     }
 
-    showPersonInformation(id);
+
+    /*
+       Remove selection from every node.
+    */
+
+    document
+        .querySelectorAll(".person-node")
+        .forEach(node => {
+
+            node.classList.remove("selected");
+
+        });
+
+
+
+    /*
+       Highlight selected node.
+    */
+
+    const selectedNode =
+        document.querySelector(
+            `[data-person="${id}"]`
+        );
+
+
+    if (selectedNode) {
+
+        selectedNode.classList.add("selected");
+
+    }
+
+
+
+    /*
+       Show information panel.
+    */
+
+    showPersonPanel(person);
+
 }
 
 
 
 /* =========================================
-   Information Panel
+   Show Person Panel
    ========================================= */
 
-function showPersonInformation(id) {
+function showPersonPanel(person) {
 
-    const person = findPerson(id);
+    const panel =
+        document.getElementById("personPanel");
 
-    if (!person) return;
 
-    const panel = document.getElementById("personPanel");
+    if (!panel) {
+        return;
+    }
 
-    if (!panel) return;
+
+
+    /*
+       Mentor information
+    */
+
+    let mentorInformation = "";
+
+
+    if (person.mentors) {
+
+        const mentors = person.mentors
+            .map(id => {
+
+                const mentor = getPerson(id);
+
+                return mentor
+                    ? mentor.name
+                    : "";
+
+            })
+            .filter(Boolean)
+            .join("<br>");
+
+
+        mentorInformation = `
+
+            <div class="panel-detail">
+
+                <span>
+                    Mentors
+                </span>
+
+                <strong>
+                    ${mentors}
+                </strong>
+
+            </div>
+
+        `;
+
+    }
+
+
+
+    /*
+       Build panel.
+    */
 
     panel.innerHTML = `
+
         <button
+            type="button"
             class="close-panel"
-            onclick="closePersonInformation()">
+            id="closePanel"
+            aria-label="Close scholar information"
+        >
             ×
         </button>
+
 
         <p class="panel-label">
             ${person.relationship}
         </p>
 
+
         <h2>
             ${person.name}
         </h2>
+
 
         <p class="panel-role">
             ${person.role}
         </p>
 
-        ${
-            person.advisor
-            ? `
-                <div class="panel-detail">
-                    <span>Lineage</span>
-                    <strong>
-                        ${findPerson(person.advisor).name}
-                    </strong>
-                </div>
-            `
-            : ""
-        }
 
-        ${
-            person.mentors
-            ? `
-                <div class="panel-detail">
-                    <span>Mentors</span>
+        <p>
+            ${person.description}
+        </p>
 
-                    <strong>
-                        ${person.mentors
-                            .map(id => findPerson(id).name)
-                            .join("<br>")}
-                    </strong>
-                </div>
-            `
-            : ""
-        }
+
+        ${mentorInformation}
+
     `;
 
+
+    /*
+       Open panel.
+    */
+
     panel.classList.add("open");
+
+    panel.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+
+
+    /*
+       Close button.
+    */
+
+    const closeButton =
+        document.getElementById("closePanel");
+
+
+    if (closeButton) {
+
+        closeButton.addEventListener(
+            "click",
+            closePersonPanel
+        );
+
+    }
+
 }
 
 
 
 /* =========================================
-   Close Information Panel
+   Close Person Panel
    ========================================= */
 
-function closePersonInformation() {
+function closePersonPanel() {
 
-    const panel = document.getElementById("personPanel");
+    const panel =
+        document.getElementById("personPanel");
+
 
     if (panel) {
+
         panel.classList.remove("open");
+
+        panel.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
     }
+
+
+
+    /*
+       Remove selected node.
+    */
 
     document
         .querySelectorAll(".person-node")
         .forEach(node => {
+
             node.classList.remove("selected");
+
         });
+
 }
 
 
@@ -254,21 +354,71 @@ function closePersonInformation() {
 
 function resetGenealogy() {
 
-    closePersonInformation();
+    closePersonPanel();
 
 }
 
 
 
 /* =========================================
-   Initialize
+   Initialize Page
    ========================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    console.log(
-        "Academic genealogy loaded:",
-        genealogy
-    );
 
-});
+        /*
+           Find every scholar node.
+        */
+
+        const nodes =
+            document.querySelectorAll(
+                ".person-node"
+            );
+
+
+        /*
+           Make each node clickable.
+        */
+
+        nodes.forEach(node => {
+
+            node.addEventListener(
+                "click",
+                () => {
+
+                    const id =
+                        node.dataset.person;
+
+                    selectPerson(id);
+
+                }
+            );
+
+        });
+
+
+
+        /*
+           Reset button.
+        */
+
+        const resetButton =
+            document.getElementById(
+                "resetGenealogy"
+            );
+
+
+        if (resetButton) {
+
+            resetButton.addEventListener(
+                "click",
+                resetGenealogy
+            );
+
+        }
+
+    }
+);
