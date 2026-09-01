@@ -20,7 +20,7 @@ const genealogy = {
     chapin: {
         name: "F. Stuart Chapin",
         role: "Sociologist",
-        institution: "University of Minnesota",
+        institution: "Smith College",
         relationship: "Academic Lineage",
         generation: 5,
         areas: [
@@ -33,7 +33,7 @@ const genealogy = {
     sewell: {
         name: "William H. Sewell",
         role: "Sociologist",
-        institution: "University of Chicago",
+        institution: "University of Wisconsin–Madison",
         relationship: "Academic Lineage",
         generation: 4,
         areas: [
@@ -59,7 +59,7 @@ const genealogy = {
     portes: {
         name: "Alejandro Portes",
         role: "Sociologist",
-        institution: "University of Miami",
+        institution: "Johns Hopkins Univerisity",
         relationship: "Academic Lineage",
         generation: 2,
         areas: [
@@ -86,7 +86,7 @@ const genealogy = {
     "rodriguez-muniz": {
         name: "Michael Rodríguez-Muñiz",
         role: "Sociologist",
-        institution: "University of Chicago",
+        institution: "University of California, Berkeley",
         relationship: "Mentor",
         generation: 0,
         areas: [
@@ -132,13 +132,6 @@ const genealogy = {
 
 /* =========================================
    Academic Relationships
-   =========================================
-
-   José branches to BOTH Michael and Ricarda.
-
-   Both Michael and Ricarda then connect
-   to Julio.
-
 ========================================= */
 
 const relationships = [
