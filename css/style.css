@@ -107,11 +107,12 @@ main {
     min-height: 75vh;
 
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
+
+    grid-template-columns: minmax(0, 1fr) 210px;
 
     align-items: center;
 
-    gap: 100px;
+    gap: 80px;
 
     padding: 100px 5vw;
 }
@@ -124,7 +125,8 @@ main {
 /* ---------- Hero Image ---------- */
 
 .hero-image {
-    width: 300px;
+    width: 210px;
+
     justify-self: end;
 }
 
@@ -332,6 +334,7 @@ main {
         gap: 16px 22px;
     }
 
+
     .hero {
         min-height: 65vh;
 
@@ -339,7 +342,7 @@ main {
 
         padding: 80px 6vw;
 
-        gap: 50px;
+        gap: 45px;
     }
 
     .hero h1 {
@@ -347,7 +350,8 @@ main {
     }
 
     .hero-image {
-        width: 280px;
+        width: 210px;
+
         justify-self: start;
     }
 
@@ -363,6 +367,7 @@ main {
 
         margin-top: 35px;
     }
+
 
     .home-section {
         grid-template-columns: 1fr;
@@ -423,7 +428,7 @@ main {
     }
 
     .hero-image {
-        width: 220px;
+        width: 180px;
     }
 
     .home-section {
