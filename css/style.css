@@ -108,7 +108,7 @@ main {
 
     display: grid;
 
-    grid-template-columns: minmax(0, 1fr) 210px;
+    grid-template-columns: minmax(0, 1fr) 150px;
 
     align-items: center;
 
@@ -125,7 +125,7 @@ main {
 /* ---------- Hero Image ---------- */
 
 .hero-image {
-    width: 210px;
+    width: 150px;
 
     justify-self: end;
 }
@@ -334,7 +334,6 @@ main {
         gap: 16px 22px;
     }
 
-
     .hero {
         min-height: 65vh;
 
@@ -350,7 +349,7 @@ main {
     }
 
     .hero-image {
-        width: 210px;
+        width: 150px;
 
         justify-self: start;
     }
@@ -367,7 +366,6 @@ main {
 
         margin-top: 35px;
     }
-
 
     .home-section {
         grid-template-columns: 1fr;
@@ -428,7 +426,7 @@ main {
     }
 
     .hero-image {
-        width: 180px;
+        width: 130px;
     }
 
     .home-section {
