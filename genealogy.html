@@ -2,552 +2,1304 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Academic Genealogy — Julio Adrián Cedillo</title>
+    <title>Academic Genealogy</title>
 
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <!-- D3 -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 
-    <!-- Genealogy CSS -->
-    <link rel="stylesheet" href="css/genealogy.css">
+    <style>
 
+        /* --------------------------------------------------
+           BASE
+        -------------------------------------------------- */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background: #fafafa;
+            color: #1a1a1a;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+
+            overflow: hidden;
+        }
+
+
+        /* --------------------------------------------------
+           TITLE
+        -------------------------------------------------- */
+
+        .title {
+            position: fixed;
+
+            top: 35px;
+            left: 40px;
+
+            z-index: 20;
+
+            pointer-events: none;
+        }
+
+        .title h1 {
+            margin: 0;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 25px;
+            font-weight: 400;
+
+            letter-spacing: -0.3px;
+        }
+
+        .title p {
+            margin-top: 7px;
+
+            max-width: 400px;
+
+            font-size: 12px;
+            line-height: 1.5;
+
+            color: #777;
+        }
+
+
+        /* --------------------------------------------------
+           NETWORK
+        -------------------------------------------------- */
+
+        #network {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+
+            cursor: grab;
+        }
+
+        svg:active {
+            cursor: grabbing;
+        }
+
+
+        /* --------------------------------------------------
+           CONNECTIONS
+        -------------------------------------------------- */
+
+        .link {
+            stroke: #c9c9c9;
+            stroke-width: 1px;
+
+            fill: none;
+        }
+
+        .link.mentorship {
+            stroke: #999;
+            stroke-width: 1.2px;
+        }
+
+
+        /* --------------------------------------------------
+           NODES
+        -------------------------------------------------- */
+
+        .node {
+            cursor: pointer;
+
+            stroke: #fafafa;
+            stroke-width: 2px;
+
+            transition:
+                opacity 0.2s ease,
+                stroke-width 0.2s ease;
+        }
+
+        .node:hover {
+            stroke: #111;
+            stroke-width: 2px;
+        }
+
+
+        /* --------------------------------------------------
+           LABELS
+        -------------------------------------------------- */
+
+        .label {
+            pointer-events: none;
+
+            font-size: 12px;
+
+            fill: #333;
+
+            opacity: 0;
+
+            transition: opacity 0.2s ease;
+        }
+
+        .label.in-view {
+            opacity: 1;
+        }
+
+
+        /* --------------------------------------------------
+           PROFILE
+        -------------------------------------------------- */
+
+        #profile {
+            position: fixed;
+
+            right: 30px;
+            bottom: 30px;
+
+            width: 300px;
+
+            padding: 22px;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            border: 1px solid #ddd;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.08);
+
+            opacity: 0;
+
+            transform:
+                translateY(10px);
+
+            pointer-events: none;
+
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+
+            z-index: 30;
+        }
+
+        #profile.visible {
+            opacity: 1;
+
+            transform:
+                translateY(0);
+
+            pointer-events: auto;
+        }
+
+        #profile h2 {
+            margin: 0 0 4px;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 21px;
+            font-weight: 400;
+        }
+
+        #profile .institution {
+            color: #777;
+
+            font-size: 12px;
+
+            margin-bottom: 18px;
+        }
+
+        #profile .role {
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.08em;
+
+            color: #999;
+
+            margin-bottom: 5px;
+        }
+
+        #profile p {
+            margin: 0;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            color: #444;
+        }
+
+        #profile .lineage {
+            margin-top: 18px;
+
+            padding-top: 15px;
+
+            border-top: 1px solid #eee;
+        }
+
+        #profile .lineage-label {
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.08em;
+
+            color: #999;
+
+            margin-bottom: 7px;
+        }
+
+
+        /* --------------------------------------------------
+           CLOSE BUTTON
+        -------------------------------------------------- */
+
+        #close {
+            position: absolute;
+
+            top: 12px;
+            right: 14px;
+
+            border: 0;
+
+            background: none;
+
+            color: #999;
+
+            font-size: 18px;
+
+            cursor: pointer;
+        }
+
+        #close:hover {
+            color: #111;
+        }
+
+
+        /* --------------------------------------------------
+           INSTRUCTIONS
+        -------------------------------------------------- */
+
+        .instructions {
+            position: fixed;
+
+            bottom: 25px;
+            left: 40px;
+
+            color: #999;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+
+            z-index: 20;
+
+            pointer-events: none;
+        }
+
+
+        /* --------------------------------------------------
+           DIMMING
+        -------------------------------------------------- */
+
+        .dimmed {
+            opacity: 0.08 !important;
+        }
+
+        .highlighted {
+            opacity: 1 !important;
+        }
+
+
+        /* --------------------------------------------------
+           MOBILE
+        -------------------------------------------------- */
+
+        @media (max-width: 700px) {
+
+            .title {
+                top: 22px;
+                left: 22px;
+            }
+
+            .title h1 {
+                font-size: 21px;
+            }
+
+            .title p {
+                max-width: 280px;
+            }
+
+            #profile {
+                left: 20px;
+                right: 20px;
+
+                bottom: 20px;
+
+                width: auto;
+            }
+
+            .instructions {
+                left: 22px;
+                bottom: 20px;
+            }
+
+        }
+
+    </style>
 </head>
 
 
 <body>
 
 
-    <!-- =========================================
-         NAVIGATION
-         ========================================= -->
+    <!-- --------------------------------------------------
+         TITLE
+    -------------------------------------------------- -->
 
-    <header class="site-header">
+    <div class="title">
 
-        <nav class="navbar">
+        <h1>Academic Genealogy</h1>
 
-            <a href="index.html" class="site-name">
-                Julio Adrián Cedillo
-            </a>
+        <p>
+            Tracing the mentorship and intellectual relationships
+            that developed my academic interests.
+        </p>
 
-            <div class="nav-links">
+    </div>
 
-                <a href="about.html">About</a>
 
-                <a href="cv.html">CV</a>
+    <!-- --------------------------------------------------
+         NETWORK
+    -------------------------------------------------- -->
 
-                <a href="projects.html">Projects</a>
+    <div id="network">
 
-                <a href="genealogy.html">
-                    Academic Genealogy
-                </a>
+        <svg></svg>
 
+    </div>
+
+
+    <!-- --------------------------------------------------
+         INSTRUCTIONS
+    -------------------------------------------------- -->
+
+    <div class="instructions">
+
+        Click a scholar to explore their place in the genealogy.<br>
+        Drag to move · Scroll to zoom
+
+    </div>
+
+
+    <!-- --------------------------------------------------
+         PROFILE
+    -------------------------------------------------- -->
+
+    <div id="profile">
+
+        <button id="close">
+            ×
+        </button>
+
+        <div id="profile-content"></div>
+
+    </div>
+
+
+<script>
+
+
+/* =========================================================
+   ACADEMIC GENEALOGY DATA
+========================================================= */
+
+
+const nodes = [
+
+    {
+        id: "giddings",
+
+        name: "Franklin Henry Giddings",
+
+        institution: "Columbia University",
+
+        generation: 6,
+
+        role: "Earlier generation",
+
+        description:
+            "Sociologist associated with the development of early American sociology."
+    },
+
+
+    {
+        id: "chapin",
+
+        name: "F. Stuart Chapin",
+
+        institution: "Smith College",
+
+        generation: 5,
+
+        role: "Academic lineage",
+
+        description:
+            "Sociologist who played a key role in the creation of a quantitative, statistical sociology in the United States in the years between World War I and World War II (1920-40)."
+    },
+
+
+    {
+        id: "sewell",
+
+        name: "William H. Sewell",
+
+        institution: "University of Wisconsin–Madison",
+
+        generation: 4,
+
+        role: "Academic lineage",
+
+        description:
+            "Sociologist known for his research in the sociology of inequality, especially in schooling, as well as his empirical approach to sociology."
+    },
+
+
+    {
+        id: "haller",
+
+        name: "Archibald O. Haller",
+
+        institution: "University of Wisconsin–Madison",
+
+        generation: 3,
+
+        role: "Academic lineage",
+
+        description:
+            "Sociologist associated with the development of status-attainment research."
+    },
+
+
+    {
+        id: "portes",
+
+        name: "Alejandro Portes",
+
+        institution: "Johns Hopkins University",
+
+        generation: 2,
+
+        role: "Academic lineage",
+
+        description:
+            "Sociologist whose work spans immigration, economic sociology, migration, and social stratification."
+    },
+
+
+    {
+        id: "itzigsohn",
+
+        name: "José Itzigsohn",
+
+        institution: "Brown University",
+
+        generation: 1,
+
+        role: "Mentor",
+
+        description:
+            "Sociologist whose work engages political sociology, race and ethnicity, immigration, and social theory."
+    },
+
+
+    {
+        id: "rodriguez-muniz",
+
+        name: "Michael Rodríguez-Muñiz",
+
+        institution: "University of California, Berkeley",
+
+        generation: 1,
+
+        role: "Academic lineage",
+
+        description:
+            "Sociologist working at the intersection of race, ethnicity, culture, politics, and Latinx studies."
+    },
+
+
+    {
+        id: "hammer",
+
+        name: "Ricarda Hammer",
+
+        institution: "University of California, Berkeley",
+
+        generation: 1,
+
+        role: "Mentor",
+
+        description:
+            "Sociologist whose research engages race, political economy, postcolonialism, and social theory."
+    },
+
+
+    {
+        id: "julio",
+
+        name: "Julio Cedillo",
+
+        institution: "University of California, Berkeley",
+
+        generation: 0,
+
+        role: "You",
+
+        description:
+            "Sociologist interested in political sociology, race and ethnicity, immigration, military sociology, Du Boisian sociology, and the relationship between power and the state."
+    }
+
+];
+
+
+/* =========================================================
+   MENTORSHIP CONNECTIONS
+========================================================= */
+
+
+const links = [
+
+    {
+        source: "giddings",
+        target: "chapin",
+        type: "mentorship"
+    },
+
+    {
+        source: "chapin",
+        target: "sewell",
+        type: "mentorship"
+    },
+
+    {
+        source: "sewell",
+        target: "haller",
+        type: "mentorship"
+    },
+
+    {
+        source: "haller",
+        target: "portes",
+        type: "mentorship"
+    },
+
+    {
+        source: "portes",
+        target: "itzigsohn",
+        type: "mentorship"
+    },
+
+    {
+        source: "itzigsohn",
+        target: "rodriguez-muniz",
+        type: "mentorship"
+    },
+
+    {
+        source: "itzigsohn",
+        target: "hammer",
+        type: "mentorship"
+    },
+
+    {
+        source: "rodriguez-muniz",
+        target: "julio",
+        type: "mentorship"
+    },
+
+    {
+        source: "hammer",
+        target: "julio",
+        type: "mentorship"
+    }
+
+];
+
+
+/* =========================================================
+   COLORS
+========================================================= */
+
+function nodeColor(d) {
+
+    if (d.id === "julio") {
+
+        return "#111";
+
+    }
+
+    if (d.generation === 1) {
+
+        return "#555";
+
+    }
+
+    if (d.generation === 2) {
+
+        return "#777";
+
+    }
+
+    return "#999";
+
+}
+
+
+/* =========================================================
+   SVG
+========================================================= */
+
+const svg =
+    d3.select("svg");
+
+
+const width =
+    window.innerWidth;
+
+
+const height =
+    window.innerHeight;
+
+
+/* =========================================================
+   ZOOM
+========================================================= */
+
+const container =
+    svg.append("g");
+
+
+const zoom =
+    d3.zoom()
+
+        .scaleExtent([
+            0.35,
+            4
+        ])
+
+        .on(
+            "zoom",
+            event => {
+
+                container.attr(
+                    "transform",
+                    event.transform
+                );
+
+            }
+        );
+
+
+svg.call(zoom);
+
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+const link =
+    container
+        .append("g")
+        .selectAll("line")
+        .data(links)
+        .join("line")
+        .attr(
+            "class",
+            "link mentorship"
+        );
+
+
+/* =========================================================
+   NODES
+========================================================= */
+
+const node =
+    container
+        .append("g")
+        .selectAll("g")
+        .data(nodes)
+        .join("g")
+        .attr(
+            "class",
+            "node-group"
+        )
+
+        .on(
+            "click",
+            showProfile
+        )
+
+        .on(
+            "mouseenter",
+            highlightConnections
+        )
+
+        .on(
+            "mouseleave",
+            clearConnections
+        )
+
+        .call(
+
+            d3.drag()
+
+                .on(
+                    "start",
+                    dragStarted
+                )
+
+                .on(
+                    "drag",
+                    dragged
+                )
+
+                .on(
+                    "end",
+                    dragEnded
+                )
+
+        );
+
+
+/* =========================================================
+   CIRCLES
+========================================================= */
+
+node
+    .append("circle")
+
+    .attr(
+        "class",
+        "node"
+    )
+
+    .attr(
+        "r",
+        d => {
+
+            if (
+                d.id === "julio"
+            ) {
+
+                return 9;
+
+            }
+
+            return 6;
+
+        }
+    )
+
+    .attr(
+        "fill",
+        nodeColor
+    );
+
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+node
+    .append("text")
+
+    .attr(
+        "class",
+        "label"
+    )
+
+    .attr(
+        "dx",
+        11
+    )
+
+    .attr(
+        "dy",
+        4
+    )
+
+    .text(
+        d => d.name
+    );
+
+
+/* =========================================================
+   FORCE SIMULATION
+========================================================= */
+
+const simulation =
+
+    d3.forceSimulation(nodes)
+
+        .force(
+
+            "link",
+
+            d3.forceLink(links)
+
+                .id(
+                    d => d.id
+                )
+
+                .distance(120)
+
+                .strength(0.8)
+
+        )
+
+        .force(
+
+            "charge",
+
+            d3.forceManyBody()
+
+                .strength(-250)
+
+        )
+
+        .force(
+
+            "center",
+
+            d3.forceCenter(
+
+                width / 2,
+
+                height / 2
+
+            )
+
+        )
+
+        .force(
+
+            "collision",
+
+            d3.forceCollide()
+
+                .radius(30)
+
+        )
+
+        .on(
+            "tick",
+            tick
+        );
+
+
+/* =========================================================
+   TICK
+========================================================= */
+
+function tick() {
+
+    link
+
+        .attr(
+            "x1",
+            d => d.source.x
+        )
+
+        .attr(
+            "y1",
+            d => d.source.y
+        )
+
+        .attr(
+            "x2",
+            d => d.target.x
+        )
+
+        .attr(
+            "y2",
+            d => d.target.y
+        );
+
+
+    node
+
+        .attr(
+
+            "transform",
+
+            d =>
+                `translate(${d.x}, ${d.y})`
+
+        );
+
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+function highlightConnections(
+    event,
+    selected
+) {
+
+    const connected =
+        new Set();
+
+
+    connected.add(
+        selected.id
+    );
+
+
+    links.forEach(
+        link => {
+
+            if (
+                link.source.id ===
+                selected.id
+            ) {
+
+                connected.add(
+                    link.target.id
+                );
+
+            }
+
+            if (
+                link.target.id ===
+                selected.id
+            ) {
+
+                connected.add(
+                    link.source.id
+                );
+
+            }
+
+        }
+    );
+
+
+    node
+
+        .classed(
+
+            "dimmed",
+
+            d =>
+                !connected.has(
+                    d.id
+                )
+
+        );
+
+
+    link
+
+        .classed(
+
+            "dimmed",
+
+            d =>
+                d.source.id !==
+                selected.id &&
+                d.target.id !==
+                selected.id
+
+        );
+
+}
+
+
+function clearConnections() {
+
+    node.classed(
+        "dimmed",
+        false
+    );
+
+
+    link.classed(
+        "dimmed",
+        false
+    );
+
+}
+
+
+/* =========================================================
+   CLICK / PROFILE
+========================================================= */
+
+function showProfile(
+    event,
+    d
+) {
+
+    const profile =
+        document.getElementById(
+            "profile"
+        );
+
+
+    const content =
+        document.getElementById(
+            "profile-content"
+        );
+
+
+    content.innerHTML = `
+
+        <div class="role">
+            ${d.role}
+        </div>
+
+        <h2>
+            ${d.name}
+        </h2>
+
+        <div class="institution">
+            ${d.institution}
+        </div>
+
+        <p>
+            ${d.description}
+        </p>
+
+        <div class="lineage">
+
+            <div class="lineage-label">
+                Relationship
             </div>
 
-        </nav>
+            ${getRelationship(d)}
 
-    </header>
+        </div>
 
+    `;
 
 
-    <!-- =========================================
-         MAIN CONTENT
-         ========================================= -->
+    profile.classList.add(
+        "visible"
+    );
 
-    <main>
 
+    /* Highlight selected node */
 
-        <!-- =====================================
-             INTRODUCTION
-             ===================================== -->
+    node
+        .selectAll("circle")
+        .classed(
+            "highlighted",
+            n =>
+                n.id === d.id
+        );
 
-        <section class="genealogy-intro">
+}
 
-            <p class="eyebrow">
-                Academic Genealogy
-            </p>
 
-            <h1>
-                Intellectual Lineages
-            </h1>
+/* =========================================================
+   RELATIONSHIP TEXT
+========================================================= */
 
-            <p class="genealogy-description">
-                A visual genealogy tracing the scholars and mentors
-                whose intellectual traditions have shaped my academic development.
-            </p>
+function getRelationship(
+    person
+) {
 
-        </section>
+    const parent =
+        links.find(
+            l =>
+                l.target.id ===
+                person.id
+        );
 
 
+    const child =
+        links.find(
+            l =>
+                l.source.id ===
+                person.id
+        );
 
-        <!-- =====================================
-             GENEALOGY CONTAINER
-             ===================================== -->
 
-        <section class="genealogy-container">
+    let text = "";
 
 
-            <!-- Header -->
+    if (parent) {
 
-            <div class="genealogy-header">
+        text +=
+            `Mentor: ${parent.source.name}<br>`;
 
-                <div>
+    }
 
-                    <span class="genealogy-label">
-                        ACADEMIC LINEAGE
-                    </span>
 
-                    <p>
-                        Select a scholar to explore their work and
-                        place in the genealogy.
-                    </p>
+    if (child) {
 
-                </div>
+        text +=
+            `Academic descendant: ${child.target.name}`;
 
+    }
 
-                <button
-                    type="button"
-                    class="reset-button"
-                    id="resetGenealogy"
-                >
-                    Reset View
-                </button>
 
-            </div>
+    if (!text) {
 
+        text =
+            "Beginning of the mapped genealogy.";
 
+    }
 
-            <!-- =================================
-                 TREE
-                 ================================= -->
 
-            <div class="genealogy-tree">
+    return text;
 
+}
 
-                <!-- =================================
-                     GENERATION 1
-                     ================================= -->
 
-                <div class="generation">
+/* =========================================================
+   CLOSE PROFILE
+========================================================= */
 
-                    <div
-                        class="person-node"
-                        data-person="giddings"
-                        tabindex="0"
-                        role="button"
-                    >
+document
+    .getElementById("close")
+    .addEventListener(
+        "click",
+        () => {
 
-                        <div class="node-name">
-                            Franklin Henry Giddings
-                        </div>
+            document
+                .getElementById(
+                    "profile"
+                )
+                .classList
+                .remove(
+                    "visible"
+                );
 
-                        <div class="node-info">
-                            Sociologist & Economist · Columbia University
-                        </div>
+            node
+                .selectAll("circle")
+                .classed(
+                    "highlighted",
+                    false
+                );
 
-                    </div>
+        }
+    );
 
-                </div>
 
+/* =========================================================
+   DRAGGING
+========================================================= */
 
-                <div class="connection"></div>
+function dragStarted(
+    event,
+    d
+) {
 
+    if (!event.active) {
 
+        simulation
+            .alphaTarget(
+                0.3
+            )
+            .restart();
 
-                <!-- =================================
-                     GENERATION 2
-                     ================================= -->
+    }
 
-                <div class="generation">
 
-                    <div
-                        class="person-node"
-                        data-person="chapin"
-                        tabindex="0"
-                        role="button"
-                    >
+    d.fx = d.x;
+    d.fy = d.y;
 
-                        <div class="node-name">
-                            F. Stuart Chapin
-                        </div>
+}
 
-                        <div class="node-info">
-                            Sociologist · University of Minnesota
-                        </div>
 
-                    </div>
+function dragged(
+    event,
+    d
+) {
 
-                </div>
+    d.fx = event.x;
+    d.fy = event.y;
 
+}
 
-                <div class="connection"></div>
 
+function dragEnded(
+    event,
+    d
+) {
 
+    if (!event.active) {
 
-                <!-- =================================
-                     GENERATION 3
-                     ================================= -->
+        simulation
+            .alphaTarget(
+                0
+            );
 
-                <div class="generation">
+    }
 
-                    <div
-                        class="person-node"
-                        data-person="sewell"
-                        tabindex="0"
-                        role="button"
-                    >
 
-                        <div class="node-name">
-                            William H. Sewell
-                        </div>
+    d.fx = null;
+    d.fy = null;
 
-                        <div class="node-info">
-                            Sociologist & Chancellor · University of Wisconsin - Madison
-                        </div>
+}
 
-                    </div>
 
-                </div>
+/* =========================================================
+   WINDOW RESIZE
+========================================================= */
 
+window.addEventListener(
+    "resize",
+    () => {
 
-                <div class="connection"></div>
+        simulation
+            .force(
+                "center",
+                d3.forceCenter(
+                    window.innerWidth / 2,
+                    window.innerHeight / 2
+                )
+            )
 
+            .alpha(0.3)
+            .restart();
 
+    }
+);
 
-                <!-- =================================
-                     GENERATION 4
-                     ================================= -->
 
-                <div class="generation">
-
-                    <div
-                        class="person-node"
-                        data-person="haller"
-                        tabindex="0"
-                        role="button"
-                    >
-
-                        <div class="node-name">
-                            Archibald O. Haller
-                        </div>
-
-                        <div class="node-info">
-                            Sociologist · University of Wisconsin - Madison
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="connection"></div>
-
-
-
-                <!-- =================================
-                     GENERATION 5
-                     ================================= -->
-
-                <div class="generation">
-
-                    <div
-                        class="person-node"
-                        data-person="portes"
-                        tabindex="0"
-                        role="button"
-                    >
-
-                        <div class="node-name">
-                            Alejandro Portes
-                        </div>
-
-                        <div class="node-info">
-                            Sociologist · Princeton University & University of Miami
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="connection"></div>
-
-
-
-                <!-- =================================
-                     GENERATION 6
-                     ================================= -->
-
-                <div class="generation">
-
-                    <div
-                        class="person-node"
-                        data-person="itzigsohn"
-                        tabindex="0"
-                        role="button"
-                    >
-
-                        <div class="node-name">
-                            José Itzigsohn
-                        </div>
-
-                        <div class="node-info">
-                            Sociologist · Brown University
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- =================================
-                     MENTOR SPLIT
-                     ================================= -->
-
-                <div class="mentor-split">
-
-
-                    <!-- Vertical line from José -->
-
-                    <div class="split-stem"></div>
-
-
-                    <!-- Horizontal branch -->
-
-                    <div class="split-horizontal"></div>
-
-
-                    <!-- Left branch -->
-
-                    <div class="mentor mentor-left">
-
-                        <div class="mentor-vertical"></div>
-
-                        <div
-                            class="person-node"
-                            data-person="rodriguez-muniz"
-                            tabindex="0"
-                            role="button"
-                        >
-
-                            <div class="node-name">
-                                Michael Rodríguez-Muñiz
-                            </div>
-
-                            <div class="node-info">
-                                Sociologist · UC Berkeley
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Right branch -->
-
-                    <div class="mentor mentor-right">
-
-                        <div class="mentor-vertical"></div>
-
-                        <div
-                            class="person-node"
-                            data-person="hammer"
-                            tabindex="0"
-                            role="button"
-                        >
-
-                            <div class="node-name">
-                                Ricarda Hammer
-                            </div>
-
-                            <div class="node-info">
-                                Sociologist · UC Berkeley
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- =================================
-                     MENTOR RECONNECTION
-                     ================================= -->
-
-                <div class="mentor-reconnect">
-
-                    <div class="reconnect-left"></div>
-
-                    <div class="reconnect-right"></div>
-
-                    <div class="reconnect-center"></div>
-
-                </div>
-
-
-
-                <!-- =================================
-                     JULIO CONNECTION
-                     ================================= -->
-
-                <div class="julio-connection"></div>
-
-
-
-                <!-- =================================
-                     JULIO CEDILLO
-                     ================================= -->
-
-                <div class="generation">
-
-                    <div class="generation-label">
-                        Current Scholar
-                    </div>
-
-                    <div
-                        class="person-node current-person"
-                        data-person="julio"
-                        tabindex="0"
-                        role="button"
-                    >
-
-                        <div class="node-name">
-                            Julio Cedillo
-                        </div>
-
-                        <div class="node-info">
-                            UC Berkeley
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- =================================
-                 INFORMATION PANEL
-                 ================================= -->
-
-            <aside
-                class="person-panel"
-                id="personPanel"
-                aria-hidden="true"
-            >
-
-                <!-- JavaScript inserts content here -->
-
-            </aside>
-
-
-        </section>
-
-
-
-        <!-- =====================================
-             ABOUT THE GENEALOGY
-             ===================================== -->
-
-        <section class="genealogy-notes">
-
-
-            <div class="section-label">
-
-                <span>
-                    01
-                </span>
-
-                <span>
-                    About
-                </span>
-
-            </div>
-
-
-
-            <div class="section-content">
-
-                <h2>
-                    One big academic family.
-                </h2>
-
-
-                <p>
-                    I was in office hours with Ricarda Hammer, who told me during a conversation that José Itzingsohn is my "academic grandpa" since 
-                    I was mentored by both of his students. This gave me an idea to trace the scholars who advised and influenced
-                    my mentors, who lead to my academic interests.
-                    
-                </p>
-
-
-                <p>
-                    This genealogy traces scholars beginning from the 1880s to 2026!
-                    From José Itzigsohn, the genealogy branches to
-                    Michael Rodríguez-Muñiz and Ricarda Hammer, who
-                    have both served as mentors in my intellectual
-                    development.
-                </p>
-
-                <p>
-                    This is an evolving project and will
-                    continue to develop as I document my intellectual
-                    relationships and traditions.
-                </p>
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =====================================
-             FOOTER
-             ===================================== -->
-
-        <footer class="site-footer">
-
-            <div>
-                © 2026 Julio Cedillo
-            </div>
-
-
-            <div class="footer-links">
-
-                <a href="julio.cedillo@berkeley.edu">
-                    Email
-                </a>
-
-                <a href="cv.html">
-                    CV
-                </a>
-
-            </div>
-
-        </footer>
-
-
-    </main>
-
-
-
-    <!-- =========================================
-         JAVASCRIPT
-         ========================================= -->
-
-    <script src="js/genealogy.js"></script>
-
+</script>
 
 </body>
-
 </html>
