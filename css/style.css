@@ -108,11 +108,11 @@ main {
 
     display: grid;
 
-    grid-template-columns: minmax(0, 1fr) 180px;
+    grid-template-columns: minmax(0, 1fr) 200px;
 
     align-items: center;
 
-    gap: 80px;
+    gap: 90px;
 
     padding: 100px 5vw;
 }
@@ -125,7 +125,7 @@ main {
 /* ---------- Hero Image ---------- */
 
 .hero-image {
-    width: 180px;
+    width: 200px;
 
     justify-self: end;
 }
@@ -133,9 +133,11 @@ main {
 .hero-image img {
     display: block;
 
-    width: 100%;
+    width: 200px;
 
-    aspect-ratio: 4 / 5;
+    height: auto;
+
+    aspect-ratio: 3 / 4;
 
     object-fit: cover;
 }
@@ -354,6 +356,10 @@ main {
         justify-self: start;
     }
 
+    .hero-image img {
+        width: 180px;
+    }
+
     .intro {
         margin-top: 30px;
     }
@@ -426,6 +432,10 @@ main {
     }
 
     .hero-image {
+        width: 160px;
+    }
+
+    .hero-image img {
         width: 160px;
     }
 
