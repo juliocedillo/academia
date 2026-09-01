@@ -1,468 +1,317 @@
 /* =========================================
-   Julio Cedillo — Academic Genealogy
+   Page
    ========================================= */
 
+.genealogy-page {
+    position: relative;
 
-/* ---------- Page Introduction ---------- */
+    width: 100%;
+    height: calc(100vh - 70px);
+
+    overflow: hidden;
+
+    background: #fafafa;
+}
+
+
+/* =========================================
+   Introduction
+   ========================================= */
 
 .genealogy-intro {
-    padding: 110px 5vw 80px;
-    max-width: 1000px;
+    position: absolute;
+
+    top: 35px;
+    left: 5vw;
+
+    z-index: 10;
+
+    max-width: 430px;
+
+    pointer-events: none;
 }
 
 .genealogy-intro h1 {
-    margin-bottom: 35px;
+    margin: 0 0 10px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 2rem;
+    font-weight: 400;
+
+    letter-spacing: -0.02em;
 }
 
-.genealogy-description {
-    max-width: 650px;
-    font-size: 1.3rem;
-    line-height: 1.5;
-    color: #444444;
+.genealogy-intro p {
+    margin: 0;
+
+    max-width: 400px;
+
+    font-size: 0.85rem;
+
+    line-height: 1.6;
+
+    color: #777;
 }
 
 
 /* =========================================
-   Genealogy Container
+   Network
    ========================================= */
 
-.genealogy-container {
-    position: relative;
-    margin: 0 5vw 120px;
+#genealogyNetwork {
+    position: absolute;
 
-    border: 1px solid #dddddd;
-    background: #ffffff;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+#genealogyNetwork svg {
+    display: block;
+
+    width: 100%;
+    height: 100%;
 }
 
 
-/* ---------- Header ---------- */
+/* =========================================
+   Connections
+   ========================================= */
 
-.genealogy-header {
-    padding: 25px 30px;
+.genealogy-link {
+    stroke: #c7c7c7;
 
-    border-bottom: 1px solid #dddddd;
+    stroke-width: 1px;
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.genealogy-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    color: #666666;
-}
-
-.genealogy-header p {
-    margin-top: 5px;
-    font-size: 0.85rem;
-    color: #777777;
-}
-
-
-/* ---------- Reset Button ---------- */
-
-.reset-button {
-    border: 1px solid #111111;
-    background: #ffffff;
-
-    padding: 9px 15px;
-
-    font-family: inherit;
-    font-size: 0.8rem;
-
-    cursor: pointer;
+    fill: none;
 
     transition:
-        background 0.2s ease,
-        color 0.2s ease;
-}
-
-.reset-button:hover {
-    background: #111111;
-    color: #ffffff;
+        opacity 0.25s ease;
 }
 
 
 /* =========================================
-   Tree
+   Person Nodes
    ========================================= */
-
-.genealogy-tree {
-    position: relative;
-
-    padding: 80px 40px 100px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-
-/* =========================================
-   Scholar Nodes
-   ========================================= */
-
-.generation {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
 .person-node {
-    position: relative;
-
-    width: 280px;
-
-    padding: 22px 25px;
-
-    border: 1px solid #bbbbbb;
-
-    background: #ffffff;
-
     cursor: pointer;
 
-    text-align: center;
+    outline: none;
 
     transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease,
-        color 0.2s ease;
-}
-
-.person-node:hover {
-    transform: translateY(-3px);
-
-    border-color: #111111;
-
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-}
-
-
-.node-name {
-    font-size: 1.05rem;
-    font-weight: 600;
-    line-height: 1.3;
-
-    margin-bottom: 6px;
-}
-
-.node-info {
-    font-size: 0.8rem;
-    color: #777777;
-}
-
-
-/* ---------- Current Scholar ---------- */
-
-.current-person {
-    border: 2px solid #111111;
-}
-
-.current-person .node-name {
-    font-weight: 600;
-}
-
-
-/* ---------- Selected ---------- */
-
-.person-node.selected {
-    background: #111111;
-    color: #ffffff;
-
-    border-color: #111111;
-
-    transform: translateY(-3px);
-}
-
-.person-node.selected .node-info {
-    color: #cccccc;
+        opacity 0.25s ease;
 }
 
 
 /* =========================================
-   Vertical Connections
+   Node Circles
    ========================================= */
 
-/*
-   These replace the old ↓ characters.
-*/
+.person-circle {
+    fill: #8a8a8a;
 
-.connection {
-    width: 1px;
-    height: 70px;
+    stroke: #fafafa;
 
-    background: #999999;
+    stroke-width: 2px;
 
-    position: relative;
-
-    font-size: 0;
+    transition:
+        fill 0.2s ease,
+        r 0.2s ease,
+        stroke 0.2s ease;
 }
 
 
-/*
-   Small downward endpoint.
-*/
+/* Current scholar */
 
-.connection::after {
-    content: "";
+.person-node[data-person="julio"] .person-circle {
+    fill: #111111;
+}
 
-    position: absolute;
 
-    bottom: 0;
-    left: 50%;
+/* José */
 
-    width: 7px;
-    height: 7px;
+.person-node[data-person="itzigsohn"] .person-circle {
+    fill: #555555;
+}
 
-    border-right: 1px solid #999999;
-    border-bottom: 1px solid #999999;
 
-    transform:
-        translateX(-50%)
-        rotate(45deg);
+/* Hover */
+
+.person-node:hover .person-circle,
+.person-node:focus .person-circle {
+    fill: #111111;
+
+    stroke: #111111;
+}
+
+
+/* Selected */
+
+.person-node.selected .person-circle {
+    fill: #111111;
+
+    stroke: #111111;
 }
 
 
 /* =========================================
-   Mentor Branch
+   Names
    ========================================= */
 
-.mentor-branch {
-    position: relative;
+.person-label {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
 
-    width: 700px;
-    max-width: 100%;
+    font-size: 12px;
 
-    display: grid;
+    font-weight: 400;
 
-    grid-template-columns: 1fr 1fr;
+    fill: #444;
 
-    gap: 80px;
-
-    margin-top: 0;
-}
-
-
-/*
-   Horizontal line connecting the two
-   mentor branches.
-*/
-
-.mentor-branch::before {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-
-    left: 25%;
-    right: 25%;
-
-    height: 1px;
-
-    background: #999999;
-}
-
-
-/*
-   Vertical connection from José
-   down to the branch.
-*/
-
-.mentor-branch::after {
-    content: "";
-
-    position: absolute;
-
-    top: -70px;
-    left: 50%;
-
-    width: 1px;
-    height: 70px;
-
-    background: #999999;
-}
-
-
-/* ---------- Mentor Columns ---------- */
-
-.mentor-column {
-    position: relative;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-
-/*
-   Vertical line from the horizontal
-   branch into each mentor.
-*/
-
-.mentor-column::before {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-
-    width: 1px;
-    height: 45px;
-
-    background: #999999;
-}
-
-
-/*
-   Hide the old arrow connection.
-*/
-
-.mentor-column .connection {
-    height: 45px;
-
-    background: transparent;
-
-    position: relative;
-
-    z-index: 1;
-}
-
-
-/*
-   Remove arrowhead from mentor
-   connection.
-*/
-
-.mentor-column .connection::after {
-    display: none;
-}
-
-
-/* ---------- Mentor Label ---------- */
-
-.generation-label {
-    margin-bottom: 12px;
-
-    font-size: 0.65rem;
-
-    text-transform: uppercase;
-
-    letter-spacing: 0.12em;
-
-    color: #888888;
-}
-
-
-/* =========================================
-   Connection Between Mentors and Julio
-   ========================================= */
-
-.julio-connection {
-    width: 1px;
-    height: 80px;
-
-    background: #999999;
-
-    position: relative;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-size: 0;
-}
-
-
-/*
-   Downward endpoint.
-*/
-
-.julio-connection::after {
-    content: "";
-
-    position: absolute;
-
-    bottom: 0;
-    left: 50%;
-
-    width: 7px;
-    height: 7px;
-
-    border-right: 1px solid #999999;
-    border-bottom: 1px solid #999999;
-
-    transform:
-        translateX(-50%)
-        rotate(45deg);
-}
-
-
-/* =========================================
-   Information Panel
-   ========================================= */
-
-.person-panel {
-    position: absolute;
-
-    top: 100px;
-    right: 25px;
-
-    width: 300px;
-
-    padding: 30px;
-
-    background: #ffffff;
-
-    border: 1px solid #111111;
-
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    pointer-events: none;
 
     opacity: 0;
-    visibility: hidden;
-
-    transform: translateY(10px);
 
     transition:
-        opacity 0.2s ease,
-        transform 0.2s ease,
-        visibility 0.2s ease;
-
-    z-index: 10;
+        opacity 0.2s ease;
 }
 
-.person-panel.open {
+
+/*
+   Show labels for the immediate
+   genealogy around you.
+*/
+
+.person-node[data-person="julio"] .person-label,
+.person-node[data-person="hammer"] .person-label,
+.person-node[data-person="rodriguez-muniz"] .person-label,
+.person-node[data-person="itzigsohn"] .person-label {
+    opacity: 1;
+}
+
+
+/* Hover label */
+
+.person-node:hover .person-label,
+.person-node:focus .person-label {
+    opacity: 1;
+}
+
+
+/* =========================================
+   Dimming
+   ========================================= */
+
+.person-node.dimmed {
+    opacity: 0.08;
+}
+
+.genealogy-link.dimmed {
+    opacity: 0.08;
+}
+
+
+/* =========================================
+   Scholar Information Panel
+   ========================================= */
+
+#personPanel {
+    position: absolute;
+
+    top: 30px;
+
+    right: 30px;
+
+    width: 310px;
+
+    padding: 25px 28px;
+
+    background:
+        rgba(255, 255, 255, 0.97);
+
+    border: 1px solid #d8d8d8;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.08);
+
+    z-index: 30;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform:
+        translateY(10px);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0.25s ease;
+}
+
+
+/* Open panel */
+
+#personPanel.open {
     opacity: 1;
 
     visibility: visible;
 
-    transform: translateY(0);
+    transform:
+        translateY(0);
 }
 
 
-/* ---------- Panel ---------- */
+/* =========================================
+   Close
+   ========================================= */
 
 .close-panel {
     position: absolute;
 
-    top: 12px;
-    right: 15px;
+    top: 10px;
+
+    right: 13px;
+
+    width: 25px;
+    height: 25px;
+
+    padding: 0;
 
     border: none;
+
     background: transparent;
 
-    font-size: 1.4rem;
+    color: #888;
+
+    font-size: 20px;
+
+    line-height: 25px;
 
     cursor: pointer;
 }
 
+.close-panel:hover {
+    color: #111;
+}
+
+
+/* =========================================
+   Panel Typography
+   ========================================= */
+
 .panel-label {
-    margin-bottom: 15px;
+    margin: 0 0 10px;
 
     font-size: 0.65rem;
 
@@ -470,247 +319,78 @@
 
     letter-spacing: 0.12em;
 
-    color: #777777;
+    color: #999;
 }
 
-.person-panel h2 {
-    margin-bottom: 8px;
 
-    font-size: 1.7rem;
+#personPanel h2 {
+    margin: 0 0 5px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 1.55rem;
+
+    line-height: 1.2;
+
+    font-weight: 400;
 }
+
 
 .panel-role {
-    margin-bottom: 25px;
+    margin: 0 0 22px;
 
-    color: #666666;
+    font-size: 0.8rem;
+
+    color: #777;
 }
+
+
+/* =========================================
+   Panel Details
+   ========================================= */
 
 .panel-detail {
-    padding-top: 15px;
+    padding-top: 14px;
 
-    margin-top: 15px;
+    margin-top: 14px;
 
-    border-top: 1px solid #dddddd;
+    border-top: 1px solid #eeeeee;
 }
 
-.panel-detail span {
+
+.panel-detail > span {
     display: block;
 
     margin-bottom: 5px;
 
-    font-size: 0.65rem;
+    font-size: 0.62rem;
 
     text-transform: uppercase;
 
     letter-spacing: 0.1em;
 
-    color: #777777;
+    color: #999;
 }
+
 
 .panel-detail strong {
-    font-size: 0.9rem;
+    display: block;
 
-    font-weight: 500;
+    font-size: 0.82rem;
+
+    font-weight: 400;
+
+    line-height: 1.5;
+
+    color: #333;
 }
 
 
 /* =========================================
-   Genealogy Notes
-   ========================================= */
-
-.genealogy-notes {
-    display: grid;
-
-    grid-template-columns: 220px 1fr;
-
-    gap: 60px;
-
-    padding: 110px 5vw;
-
-    border-top: 1px solid #dddddd;
-}
-
-.genealogy-notes .section-content {
-    max-width: 750px;
-}
-
-.genealogy-notes h2 {
-    margin-bottom: 30px;
-}
-
-.genealogy-notes p {
-    margin-bottom: 20px;
-
-    font-size: 1.05rem;
-
-    color: #444444;
-}
-
-
-/* =========================================
-   Responsive
-   ========================================= */
-
-@media (max-width: 900px) {
-
-    .person-panel {
-        position: fixed;
-
-        top: auto;
-        right: 20px;
-        bottom: 20px;
-        left: 20px;
-
-        width: auto;
-
-        max-width: 400px;
-
-        margin-left: auto;
-    }
-
-}
-
-
-@media (max-width: 800px) {
-
-    .genealogy-intro {
-        padding: 80px 6vw 60px;
-    }
-
-    .genealogy-container {
-        margin: 0 6vw 80px;
-    }
-
-    .genealogy-header {
-        padding: 20px;
-    }
-
-    .genealogy-tree {
-        padding: 60px 20px 80px;
-    }
-
-
-    /*
-       On mobile, stack the mentors.
-    */
-
-    .mentor-branch {
-        width: 280px;
-
-        grid-template-columns: 1fr;
-
-        gap: 30px;
-    }
-
-
-    /*
-       The horizontal branch disappears on mobile.
-    */
-
-    .mentor-branch::before {
-        display: none;
-    }
-
-
-    .mentor-branch::after {
-        height: 45px;
-        top: -45px;
-    }
-
-
-    .mentor-column::before {
-        display: none;
-    }
-
-
-    .mentor-column .connection {
-        height: 0;
-    }
-
-
-    .genealogy-notes {
-        grid-template-columns: 1fr;
-
-        gap: 35px;
-
-        padding: 75px 6vw;
-    }
-
-}
-
-
-@media (max-width: 500px) {
-
-    .genealogy-intro h1 {
-        font-size: 3.5rem;
-    }
-
-    .genealogy-description {
-        font-size: 1.1rem;
-    }
-
-    .person-node {
-        width: 240px;
-    }
-
-    .genealogy-header {
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 20px;
-    }
-
-}
-
-/* =========================================
-   Mentor Reconnection
-   ========================================= */
-
-.mentor-reconnection {
-    position: relative;
-
-    width: 700px;
-    max-width: 100%;
-
-    height: 70px;
-}
-
-.mentor-line-left,
-.mentor-line-right {
-    position: absolute;
-
-    top: 0;
-
-    width: 25%;
-    height: 1px;
-
-    background: #999999;
-}
-
-.mentor-line-left {
-    left: 25%;
-}
-
-.mentor-line-right {
-    right: 25%;
-}
-
-.mentor-line-center {
-    position: absolute;
-
-    top: 0;
-    left: 50%;
-
-    width: 1px;
-    height: 70px;
-
-    background: #999999;
-}
-
-
-/* =========================================
-   Research Areas in Panel
+   Research Areas
    ========================================= */
 
 .panel-areas {
@@ -718,19 +398,160 @@
 
     flex-wrap: wrap;
 
-    gap: 6px;
+    gap: 5px;
 
-    margin-top: 8px;
+    margin-top: 7px;
 }
 
+
 .panel-areas span {
-    display: inline-block;
+    padding: 4px 7px;
 
-    padding: 5px 8px;
+    border: 1px solid #dedede;
 
-    border: 1px solid #dddddd;
+    font-size: 0.65rem;
 
-    font-size: 0.72rem;
+    color: #555;
 
-    color: #444444;
+    background: #fafafa;
+}
+
+
+/* =========================================
+   Instructions
+   ========================================= */
+
+.genealogy-instructions {
+    position: absolute;
+
+    left: 5vw;
+
+    bottom: 25px;
+
+    z-index: 10;
+
+    font-size: 0.65rem;
+
+    line-height: 1.6;
+
+    color: #999;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   Reset
+   ========================================= */
+
+.genealogy-reset {
+    position: absolute;
+
+    right: 30px;
+
+    bottom: 25px;
+
+    z-index: 20;
+
+    padding: 7px 12px;
+
+    border: 1px solid #ccc;
+
+    background: transparent;
+
+    color: #777;
+
+    font-family: inherit;
+
+    font-size: 0.7rem;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.genealogy-reset:hover {
+    border-color: #111;
+
+    background: #111;
+
+    color: white;
+}
+
+
+/* =========================================
+   Mobile
+   ========================================= */
+
+@media (max-width: 700px) {
+
+    .genealogy-page {
+        height: calc(100vh - 60px);
+    }
+
+
+    .genealogy-intro {
+        top: 20px;
+
+        left: 22px;
+
+        right: 22px;
+    }
+
+
+    .genealogy-intro h1 {
+        font-size: 1.55rem;
+    }
+
+
+    .genealogy-intro p {
+        font-size: 0.75rem;
+
+        max-width: 320px;
+    }
+
+
+    #personPanel {
+        top: auto;
+
+        right: 18px;
+
+        bottom: 55px;
+
+        left: 18px;
+
+        width: auto;
+
+        max-width: none;
+
+        padding: 22px;
+    }
+
+
+    .genealogy-instructions {
+        left: 22px;
+
+        bottom: 18px;
+
+        font-size: 0.6rem;
+    }
+
+
+    .genealogy-reset {
+        right: 18px;
+
+        bottom: 18px;
+
+        font-size: 0.6rem;
+    }
+
+
+    .person-label {
+        font-size: 10px;
+    }
+
 }
