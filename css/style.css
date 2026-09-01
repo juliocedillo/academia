@@ -108,7 +108,7 @@ main {
 
     display: grid;
 
-    grid-template-columns: minmax(0, 1fr) 200px;
+    grid-template-columns: minmax(0, 1fr) 220px;
 
     align-items: center;
 
@@ -125,7 +125,7 @@ main {
 /* ---------- Hero Image ---------- */
 
 .hero-image {
-    width: 200px;
+    width: 220px;
 
     justify-self: end;
 }
@@ -133,7 +133,7 @@ main {
 .hero-image img {
     display: block;
 
-    width: 200px;
+    width: 220px;
 
     height: auto;
 
@@ -351,13 +351,13 @@ main {
     }
 
     .hero-image {
-        width: 180px;
+        width: 190px;
 
         justify-self: start;
     }
 
     .hero-image img {
-        width: 180px;
+        width: 190px;
     }
 
     .intro {
