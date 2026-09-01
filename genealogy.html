@@ -2,1304 +2,154 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Academic Genealogy</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <!-- D3 -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>Academic Genealogy — Julio Cedillo</title>
 
-    <style>
+    <!-- Your main stylesheet -->
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 
-        /* --------------------------------------------------
-           BASE
-        -------------------------------------------------- */
+    <!-- Genealogy stylesheet -->
+    <link
+        rel="stylesheet"
+        href="css/genealogy.css"
+    >
 
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        body {
-            background: #fafafa;
-            color: #1a1a1a;
-
-            font-family:
-                -apple-system,
-                BlinkMacSystemFont,
-                "Helvetica Neue",
-                Arial,
-                sans-serif;
-
-            overflow: hidden;
-        }
-
-
-        /* --------------------------------------------------
-           TITLE
-        -------------------------------------------------- */
-
-        .title {
-            position: fixed;
-
-            top: 35px;
-            left: 40px;
-
-            z-index: 20;
-
-            pointer-events: none;
-        }
-
-        .title h1 {
-            margin: 0;
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            font-size: 25px;
-            font-weight: 400;
-
-            letter-spacing: -0.3px;
-        }
-
-        .title p {
-            margin-top: 7px;
-
-            max-width: 400px;
-
-            font-size: 12px;
-            line-height: 1.5;
-
-            color: #777;
-        }
-
-
-        /* --------------------------------------------------
-           NETWORK
-        -------------------------------------------------- */
-
-        #network {
-            position: fixed;
-
-            top: 0;
-            left: 0;
-
-            width: 100%;
-            height: 100%;
-        }
-
-        svg {
-            width: 100%;
-            height: 100%;
-
-            cursor: grab;
-        }
-
-        svg:active {
-            cursor: grabbing;
-        }
-
-
-        /* --------------------------------------------------
-           CONNECTIONS
-        -------------------------------------------------- */
-
-        .link {
-            stroke: #c9c9c9;
-            stroke-width: 1px;
-
-            fill: none;
-        }
-
-        .link.mentorship {
-            stroke: #999;
-            stroke-width: 1.2px;
-        }
-
-
-        /* --------------------------------------------------
-           NODES
-        -------------------------------------------------- */
-
-        .node {
-            cursor: pointer;
-
-            stroke: #fafafa;
-            stroke-width: 2px;
-
-            transition:
-                opacity 0.2s ease,
-                stroke-width 0.2s ease;
-        }
-
-        .node:hover {
-            stroke: #111;
-            stroke-width: 2px;
-        }
-
-
-        /* --------------------------------------------------
-           LABELS
-        -------------------------------------------------- */
-
-        .label {
-            pointer-events: none;
-
-            font-size: 12px;
-
-            fill: #333;
-
-            opacity: 0;
-
-            transition: opacity 0.2s ease;
-        }
-
-        .label.in-view {
-            opacity: 1;
-        }
-
-
-        /* --------------------------------------------------
-           PROFILE
-        -------------------------------------------------- */
-
-        #profile {
-            position: fixed;
-
-            right: 30px;
-            bottom: 30px;
-
-            width: 300px;
-
-            padding: 22px;
-
-            background: rgba(255, 255, 255, 0.96);
-
-            border: 1px solid #ddd;
-
-            box-shadow:
-                0 8px 30px rgba(0, 0, 0, 0.08);
-
-            opacity: 0;
-
-            transform:
-                translateY(10px);
-
-            pointer-events: none;
-
-            transition:
-                opacity 0.25s ease,
-                transform 0.25s ease;
-
-            z-index: 30;
-        }
-
-        #profile.visible {
-            opacity: 1;
-
-            transform:
-                translateY(0);
-
-            pointer-events: auto;
-        }
-
-        #profile h2 {
-            margin: 0 0 4px;
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            font-size: 21px;
-            font-weight: 400;
-        }
-
-        #profile .institution {
-            color: #777;
-
-            font-size: 12px;
-
-            margin-bottom: 18px;
-        }
-
-        #profile .role {
-            font-size: 11px;
-
-            text-transform: uppercase;
-
-            letter-spacing: 0.08em;
-
-            color: #999;
-
-            margin-bottom: 5px;
-        }
-
-        #profile p {
-            margin: 0;
-
-            font-size: 13px;
-
-            line-height: 1.6;
-
-            color: #444;
-        }
-
-        #profile .lineage {
-            margin-top: 18px;
-
-            padding-top: 15px;
-
-            border-top: 1px solid #eee;
-        }
-
-        #profile .lineage-label {
-            font-size: 11px;
-
-            text-transform: uppercase;
-
-            letter-spacing: 0.08em;
-
-            color: #999;
-
-            margin-bottom: 7px;
-        }
-
-
-        /* --------------------------------------------------
-           CLOSE BUTTON
-        -------------------------------------------------- */
-
-        #close {
-            position: absolute;
-
-            top: 12px;
-            right: 14px;
-
-            border: 0;
-
-            background: none;
-
-            color: #999;
-
-            font-size: 18px;
-
-            cursor: pointer;
-        }
-
-        #close:hover {
-            color: #111;
-        }
-
-
-        /* --------------------------------------------------
-           INSTRUCTIONS
-        -------------------------------------------------- */
-
-        .instructions {
-            position: fixed;
-
-            bottom: 25px;
-            left: 40px;
-
-            color: #999;
-
-            font-size: 11px;
-
-            line-height: 1.6;
-
-            z-index: 20;
-
-            pointer-events: none;
-        }
-
-
-        /* --------------------------------------------------
-           DIMMING
-        -------------------------------------------------- */
-
-        .dimmed {
-            opacity: 0.08 !important;
-        }
-
-        .highlighted {
-            opacity: 1 !important;
-        }
-
-
-        /* --------------------------------------------------
-           MOBILE
-        -------------------------------------------------- */
-
-        @media (max-width: 700px) {
-
-            .title {
-                top: 22px;
-                left: 22px;
-            }
-
-            .title h1 {
-                font-size: 21px;
-            }
-
-            .title p {
-                max-width: 280px;
-            }
-
-            #profile {
-                left: 20px;
-                right: 20px;
-
-                bottom: 20px;
-
-                width: auto;
-            }
-
-            .instructions {
-                left: 22px;
-                bottom: 20px;
-            }
-
-        }
-
-    </style>
 </head>
 
 
 <body>
 
 
-    <!-- --------------------------------------------------
-         TITLE
-    -------------------------------------------------- -->
+    <!-- =========================================
+         Navigation
+         ========================================= -->
 
-    <div class="title">
+    <header class="site-header">
 
-        <h1>Academic Genealogy</h1>
+        <nav class="site-nav">
 
-        <p>
-            Tracing the mentorship and intellectual relationships
-            that developed my academic interests.
-        </p>
+            <a href="index.html">
+                About
+            </a>
 
-    </div>
+            <a href="pages/cv.html">
+                CV
+            </a>
 
+            <a href="pages/projects.html">
+                Projects
+            </a>
 
-    <!-- --------------------------------------------------
-         NETWORK
-    -------------------------------------------------- -->
+            <a
+                href="genealogy.html"
+                class="active"
+            >
+                Academic Genealogy
+            </a>
 
-    <div id="network">
+        </nav>
 
-        <svg></svg>
-
-    </div>
-
-
-    <!-- --------------------------------------------------
-         INSTRUCTIONS
-    -------------------------------------------------- -->
-
-    <div class="instructions">
-
-        Click a scholar to explore their place in the genealogy.<br>
-        Drag to move · Scroll to zoom
-
-    </div>
+    </header>
 
 
-    <!-- --------------------------------------------------
-         PROFILE
-    -------------------------------------------------- -->
+    <!-- =========================================
+         Page Introduction
+         ========================================= -->
 
-    <div id="profile">
+    <main class="genealogy-page">
 
-        <button id="close">
-            ×
+        <section class="genealogy-intro">
+
+            <h1>
+                Academic Genealogy
+            </h1>
+
+            <p>
+                Tracing the mentorship and intellectual
+                relationships through which my academic
+                training has developed.
+            </p>
+
+        </section>
+
+
+        <!-- =========================================
+             Interactive Network
+             ========================================= -->
+
+        <section
+            id="genealogyNetwork"
+            aria-label="Interactive academic genealogy"
+        >
+        </section>
+
+
+        <!-- =========================================
+             Scholar Information Panel
+             ========================================= -->
+
+        <aside
+            id="personPanel"
+            aria-hidden="true"
+        >
+        </aside>
+
+
+        <!-- =========================================
+             Instructions
+             ========================================= -->
+
+        <div class="genealogy-instructions">
+
+            Click a scholar to explore.<br>
+            Drag to move · Scroll to zoom
+
+        </div>
+
+
+        <!-- =========================================
+             Reset
+             ========================================= -->
+
+        <button
+            id="resetGenealogy"
+            type="button"
+            class="genealogy-reset"
+        >
+            Reset
         </button>
 
-        <div id="profile-content"></div>
+    </main>
 
-    </div>
 
+    <!-- =========================================
+         D3.js
+         ========================================= -->
 
-<script>
+    <script
+        src="https://d3js.org/d3.v7.min.js">
+    </script>
 
 
-/* =========================================================
-   ACADEMIC GENEALOGY DATA
-========================================================= */
+    <!-- =========================================
+         Genealogy JavaScript
+         ========================================= -->
 
+    <script
+        src="js/genealogy.js">
+    </script>
 
-const nodes = [
-
-    {
-        id: "giddings",
-
-        name: "Franklin Henry Giddings",
-
-        institution: "Columbia University",
-
-        generation: 6,
-
-        role: "Earlier generation",
-
-        description:
-            "Sociologist associated with the development of early American sociology."
-    },
-
-
-    {
-        id: "chapin",
-
-        name: "F. Stuart Chapin",
-
-        institution: "Smith College",
-
-        generation: 5,
-
-        role: "Academic lineage",
-
-        description:
-            "Sociologist who played a key role in the creation of a quantitative, statistical sociology in the United States in the years between World War I and World War II (1920-40)."
-    },
-
-
-    {
-        id: "sewell",
-
-        name: "William H. Sewell",
-
-        institution: "University of Wisconsin–Madison",
-
-        generation: 4,
-
-        role: "Academic lineage",
-
-        description:
-            "Sociologist known for his research in the sociology of inequality, especially in schooling, as well as his empirical approach to sociology."
-    },
-
-
-    {
-        id: "haller",
-
-        name: "Archibald O. Haller",
-
-        institution: "University of Wisconsin–Madison",
-
-        generation: 3,
-
-        role: "Academic lineage",
-
-        description:
-            "Sociologist associated with the development of status-attainment research."
-    },
-
-
-    {
-        id: "portes",
-
-        name: "Alejandro Portes",
-
-        institution: "Johns Hopkins University",
-
-        generation: 2,
-
-        role: "Academic lineage",
-
-        description:
-            "Sociologist whose work spans immigration, economic sociology, migration, and social stratification."
-    },
-
-
-    {
-        id: "itzigsohn",
-
-        name: "José Itzigsohn",
-
-        institution: "Brown University",
-
-        generation: 1,
-
-        role: "Mentor",
-
-        description:
-            "Sociologist whose work engages political sociology, race and ethnicity, immigration, and social theory."
-    },
-
-
-    {
-        id: "rodriguez-muniz",
-
-        name: "Michael Rodríguez-Muñiz",
-
-        institution: "University of California, Berkeley",
-
-        generation: 1,
-
-        role: "Academic lineage",
-
-        description:
-            "Sociologist working at the intersection of race, ethnicity, culture, politics, and Latinx studies."
-    },
-
-
-    {
-        id: "hammer",
-
-        name: "Ricarda Hammer",
-
-        institution: "University of California, Berkeley",
-
-        generation: 1,
-
-        role: "Mentor",
-
-        description:
-            "Sociologist whose research engages race, political economy, postcolonialism, and social theory."
-    },
-
-
-    {
-        id: "julio",
-
-        name: "Julio Cedillo",
-
-        institution: "University of California, Berkeley",
-
-        generation: 0,
-
-        role: "You",
-
-        description:
-            "Sociologist interested in political sociology, race and ethnicity, immigration, military sociology, Du Boisian sociology, and the relationship between power and the state."
-    }
-
-];
-
-
-/* =========================================================
-   MENTORSHIP CONNECTIONS
-========================================================= */
-
-
-const links = [
-
-    {
-        source: "giddings",
-        target: "chapin",
-        type: "mentorship"
-    },
-
-    {
-        source: "chapin",
-        target: "sewell",
-        type: "mentorship"
-    },
-
-    {
-        source: "sewell",
-        target: "haller",
-        type: "mentorship"
-    },
-
-    {
-        source: "haller",
-        target: "portes",
-        type: "mentorship"
-    },
-
-    {
-        source: "portes",
-        target: "itzigsohn",
-        type: "mentorship"
-    },
-
-    {
-        source: "itzigsohn",
-        target: "rodriguez-muniz",
-        type: "mentorship"
-    },
-
-    {
-        source: "itzigsohn",
-        target: "hammer",
-        type: "mentorship"
-    },
-
-    {
-        source: "rodriguez-muniz",
-        target: "julio",
-        type: "mentorship"
-    },
-
-    {
-        source: "hammer",
-        target: "julio",
-        type: "mentorship"
-    }
-
-];
-
-
-/* =========================================================
-   COLORS
-========================================================= */
-
-function nodeColor(d) {
-
-    if (d.id === "julio") {
-
-        return "#111";
-
-    }
-
-    if (d.generation === 1) {
-
-        return "#555";
-
-    }
-
-    if (d.generation === 2) {
-
-        return "#777";
-
-    }
-
-    return "#999";
-
-}
-
-
-/* =========================================================
-   SVG
-========================================================= */
-
-const svg =
-    d3.select("svg");
-
-
-const width =
-    window.innerWidth;
-
-
-const height =
-    window.innerHeight;
-
-
-/* =========================================================
-   ZOOM
-========================================================= */
-
-const container =
-    svg.append("g");
-
-
-const zoom =
-    d3.zoom()
-
-        .scaleExtent([
-            0.35,
-            4
-        ])
-
-        .on(
-            "zoom",
-            event => {
-
-                container.attr(
-                    "transform",
-                    event.transform
-                );
-
-            }
-        );
-
-
-svg.call(zoom);
-
-
-/* =========================================================
-   LINKS
-========================================================= */
-
-const link =
-    container
-        .append("g")
-        .selectAll("line")
-        .data(links)
-        .join("line")
-        .attr(
-            "class",
-            "link mentorship"
-        );
-
-
-/* =========================================================
-   NODES
-========================================================= */
-
-const node =
-    container
-        .append("g")
-        .selectAll("g")
-        .data(nodes)
-        .join("g")
-        .attr(
-            "class",
-            "node-group"
-        )
-
-        .on(
-            "click",
-            showProfile
-        )
-
-        .on(
-            "mouseenter",
-            highlightConnections
-        )
-
-        .on(
-            "mouseleave",
-            clearConnections
-        )
-
-        .call(
-
-            d3.drag()
-
-                .on(
-                    "start",
-                    dragStarted
-                )
-
-                .on(
-                    "drag",
-                    dragged
-                )
-
-                .on(
-                    "end",
-                    dragEnded
-                )
-
-        );
-
-
-/* =========================================================
-   CIRCLES
-========================================================= */
-
-node
-    .append("circle")
-
-    .attr(
-        "class",
-        "node"
-    )
-
-    .attr(
-        "r",
-        d => {
-
-            if (
-                d.id === "julio"
-            ) {
-
-                return 9;
-
-            }
-
-            return 6;
-
-        }
-    )
-
-    .attr(
-        "fill",
-        nodeColor
-    );
-
-
-/* =========================================================
-   LABELS
-========================================================= */
-
-node
-    .append("text")
-
-    .attr(
-        "class",
-        "label"
-    )
-
-    .attr(
-        "dx",
-        11
-    )
-
-    .attr(
-        "dy",
-        4
-    )
-
-    .text(
-        d => d.name
-    );
-
-
-/* =========================================================
-   FORCE SIMULATION
-========================================================= */
-
-const simulation =
-
-    d3.forceSimulation(nodes)
-
-        .force(
-
-            "link",
-
-            d3.forceLink(links)
-
-                .id(
-                    d => d.id
-                )
-
-                .distance(120)
-
-                .strength(0.8)
-
-        )
-
-        .force(
-
-            "charge",
-
-            d3.forceManyBody()
-
-                .strength(-250)
-
-        )
-
-        .force(
-
-            "center",
-
-            d3.forceCenter(
-
-                width / 2,
-
-                height / 2
-
-            )
-
-        )
-
-        .force(
-
-            "collision",
-
-            d3.forceCollide()
-
-                .radius(30)
-
-        )
-
-        .on(
-            "tick",
-            tick
-        );
-
-
-/* =========================================================
-   TICK
-========================================================= */
-
-function tick() {
-
-    link
-
-        .attr(
-            "x1",
-            d => d.source.x
-        )
-
-        .attr(
-            "y1",
-            d => d.source.y
-        )
-
-        .attr(
-            "x2",
-            d => d.target.x
-        )
-
-        .attr(
-            "y2",
-            d => d.target.y
-        );
-
-
-    node
-
-        .attr(
-
-            "transform",
-
-            d =>
-                `translate(${d.x}, ${d.y})`
-
-        );
-
-}
-
-
-/* =========================================================
-   HOVER
-========================================================= */
-
-function highlightConnections(
-    event,
-    selected
-) {
-
-    const connected =
-        new Set();
-
-
-    connected.add(
-        selected.id
-    );
-
-
-    links.forEach(
-        link => {
-
-            if (
-                link.source.id ===
-                selected.id
-            ) {
-
-                connected.add(
-                    link.target.id
-                );
-
-            }
-
-            if (
-                link.target.id ===
-                selected.id
-            ) {
-
-                connected.add(
-                    link.source.id
-                );
-
-            }
-
-        }
-    );
-
-
-    node
-
-        .classed(
-
-            "dimmed",
-
-            d =>
-                !connected.has(
-                    d.id
-                )
-
-        );
-
-
-    link
-
-        .classed(
-
-            "dimmed",
-
-            d =>
-                d.source.id !==
-                selected.id &&
-                d.target.id !==
-                selected.id
-
-        );
-
-}
-
-
-function clearConnections() {
-
-    node.classed(
-        "dimmed",
-        false
-    );
-
-
-    link.classed(
-        "dimmed",
-        false
-    );
-
-}
-
-
-/* =========================================================
-   CLICK / PROFILE
-========================================================= */
-
-function showProfile(
-    event,
-    d
-) {
-
-    const profile =
-        document.getElementById(
-            "profile"
-        );
-
-
-    const content =
-        document.getElementById(
-            "profile-content"
-        );
-
-
-    content.innerHTML = `
-
-        <div class="role">
-            ${d.role}
-        </div>
-
-        <h2>
-            ${d.name}
-        </h2>
-
-        <div class="institution">
-            ${d.institution}
-        </div>
-
-        <p>
-            ${d.description}
-        </p>
-
-        <div class="lineage">
-
-            <div class="lineage-label">
-                Relationship
-            </div>
-
-            ${getRelationship(d)}
-
-        </div>
-
-    `;
-
-
-    profile.classList.add(
-        "visible"
-    );
-
-
-    /* Highlight selected node */
-
-    node
-        .selectAll("circle")
-        .classed(
-            "highlighted",
-            n =>
-                n.id === d.id
-        );
-
-}
-
-
-/* =========================================================
-   RELATIONSHIP TEXT
-========================================================= */
-
-function getRelationship(
-    person
-) {
-
-    const parent =
-        links.find(
-            l =>
-                l.target.id ===
-                person.id
-        );
-
-
-    const child =
-        links.find(
-            l =>
-                l.source.id ===
-                person.id
-        );
-
-
-    let text = "";
-
-
-    if (parent) {
-
-        text +=
-            `Mentor: ${parent.source.name}<br>`;
-
-    }
-
-
-    if (child) {
-
-        text +=
-            `Academic descendant: ${child.target.name}`;
-
-    }
-
-
-    if (!text) {
-
-        text =
-            "Beginning of the mapped genealogy.";
-
-    }
-
-
-    return text;
-
-}
-
-
-/* =========================================================
-   CLOSE PROFILE
-========================================================= */
-
-document
-    .getElementById("close")
-    .addEventListener(
-        "click",
-        () => {
-
-            document
-                .getElementById(
-                    "profile"
-                )
-                .classList
-                .remove(
-                    "visible"
-                );
-
-            node
-                .selectAll("circle")
-                .classed(
-                    "highlighted",
-                    false
-                );
-
-        }
-    );
-
-
-/* =========================================================
-   DRAGGING
-========================================================= */
-
-function dragStarted(
-    event,
-    d
-) {
-
-    if (!event.active) {
-
-        simulation
-            .alphaTarget(
-                0.3
-            )
-            .restart();
-
-    }
-
-
-    d.fx = d.x;
-    d.fy = d.y;
-
-}
-
-
-function dragged(
-    event,
-    d
-) {
-
-    d.fx = event.x;
-    d.fy = event.y;
-
-}
-
-
-function dragEnded(
-    event,
-    d
-) {
-
-    if (!event.active) {
-
-        simulation
-            .alphaTarget(
-                0
-            );
-
-    }
-
-
-    d.fx = null;
-    d.fy = null;
-
-}
-
-
-/* =========================================================
-   WINDOW RESIZE
-========================================================= */
-
-window.addEventListener(
-    "resize",
-    () => {
-
-        simulation
-            .force(
-                "center",
-                d3.forceCenter(
-                    window.innerWidth / 2,
-                    window.innerHeight / 2
-                )
-            )
-
-            .alpha(0.3)
-            .restart();
-
-    }
-);
-
-
-</script>
 
 </body>
+
 </html>
