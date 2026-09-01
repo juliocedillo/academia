@@ -10,15 +10,15 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Academic Genealogy — Julio Cedillo</title>
+    <title>Academic Genealogy — Julio Adrián Cedillo</title>
 
-    <!-- Your main stylesheet -->
+    <!-- Main website stylesheet -->
     <link
         rel="stylesheet"
         href="css/style.css"
     >
 
-    <!-- Genealogy stylesheet -->
+    <!-- Genealogy-specific stylesheet -->
     <link
         rel="stylesheet"
         href="css/genealogy.css"
@@ -36,37 +36,53 @@
 
     <header class="site-header">
 
-        <nav class="site-nav">
-
-            <a href="index.html">
-                About
-            </a>
-
-            <a href="pages/cv.html">
-                CV
-            </a>
-
-            <a href="pages/projects.html">
-                Projects
-            </a>
+        <nav class="navbar">
 
             <a
-                href="genealogy.html"
-                class="active"
+                href="index.html"
+                class="site-name"
             >
-                Academic Genealogy
+                Julio Adrián Cedillo
             </a>
+
+
+            <div class="nav-links">
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="cv.html">
+                    CV
+                </a>
+
+                <a href="projects.html">
+                    Projects
+                </a>
+
+                <a
+                    href="genealogy.html"
+                    class="active"
+                >
+                    Academic Genealogy
+                </a>
+
+            </div>
 
         </nav>
 
     </header>
 
 
+
     <!-- =========================================
-         Page Introduction
+         Main Genealogy Content
          ========================================= -->
 
     <main class="genealogy-page">
+
+
+        <!-- Page Introduction -->
 
         <section class="genealogy-intro">
 
@@ -83,8 +99,10 @@
         </section>
 
 
+
         <!-- =========================================
              Interactive Network
+             D3.js generates the network here
              ========================================= -->
 
         <section
@@ -92,6 +110,7 @@
             aria-label="Interactive academic genealogy"
         >
         </section>
+
 
 
         <!-- =========================================
@@ -105,6 +124,7 @@
         </aside>
 
 
+
         <!-- =========================================
              Instructions
              ========================================= -->
@@ -112,13 +132,15 @@
         <div class="genealogy-instructions">
 
             Click a scholar to explore.<br>
+
             Drag to move · Scroll to zoom
 
         </div>
 
 
+
         <!-- =========================================
-             Reset
+             Reset Button
              ========================================= -->
 
         <button
@@ -129,16 +151,19 @@
             Reset
         </button>
 
+
     </main>
 
 
+
     <!-- =========================================
-         D3.js
+         D3.js Library
          ========================================= -->
 
     <script
         src="https://d3js.org/d3.v7.min.js">
     </script>
+
 
 
     <!-- =========================================
